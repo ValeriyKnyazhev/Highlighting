@@ -5,17 +5,19 @@
 class ModuleHighlightingAndAutoCompleteon {
 private:
 	enum Color {
-		Red, Green, Blue
+		Blue, Red, Green
 	};
-	std::map<std::string, Color> KeyWords;//для каждого ключевого слова содержит номер цвета для отображения
-
-	void readFileKeyWords(std::string);
+	std::map<std::string, Color> keyWords;//для каждого ключевого слова содержит номер цвета для отображения
+	std::string stringKeyWords;
+	void readFileKeyWords();
 
 public:
 	ModuleHighlightingAndAutoCompleteon(std::string);
 	ModuleHighlightingAndAutoCompleteon();
 
+	void init();
 	std::string getHighlightingTextString(std::string);
+
 	
 
 };
