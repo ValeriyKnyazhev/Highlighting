@@ -116,6 +116,9 @@
   <ItemGroup>
     <ClInclude Include="ModuleHighlightingAndAutoCompleteon.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="keywords.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
