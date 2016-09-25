@@ -110,6 +110,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ModuleHighlightingAndAutoCompleteon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ModuleHighlightingAndAutoCompleteon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
