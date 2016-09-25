@@ -1,9 +1,9 @@
 #include <iostream>
-#include "ModuleHighlightingAndAutoCompleteon.h"
+#include "ModuleHighlightingAndAutocomplete.h"
 
 int main() {
-	ModuleHighlightingAndAutoCompleteon moduleHighlightingAndAutoCompleteon = ModuleHighlightingAndAutoCompleteon("keywords.config");
-	moduleHighlightingAndAutoCompleteon.init();
-
+	ModuleHighlightingAndAutocomplete moduleHighlightingAndAutocomplete = ModuleHighlightingAndAutocomplete("keywords.config");
+	moduleHighlightingAndAutocomplete.Init();
+	moduleHighlightingAndAutocomplete.HighlightText("test.txt");
 	return 0;
 }

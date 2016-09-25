@@ -22,6 +22,7 @@
     <ProjectGuid>{95489019-51BF-450E-8ACD-958C39D6FBB0}</ProjectGuid>
     <RootNamespace>ModuleHighlightingAndAutoCompleteon</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>ModuleHighlightingAndAutocomplete</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,6 +75,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,13 +113,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ModuleHighlightingAndAutoCompleteon.cpp" />
+    <ClCompile Include="ModuleHighlightingAndAutocomplete.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModuleHighlightingAndAutoCompleteon.h" />
+    <ClInclude Include="ModuleHighlightingAndAutocomplete.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="keywords.config" />
+    <None Include="keywords.config">
+      <FileType>Text</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
