@@ -4,12 +4,11 @@
 #include <fstream>
 
 ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(std::string fileConfig) {
-	keyWords = std::map<std::string, Color>();
 	stringKeyWords = fileConfig;
+	readFileKeyWords();
 }
 
 ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete() {
-	keyWords = std::map<std::string, Color>();
 	stringKeyWords = "";
 }
 
@@ -75,10 +74,6 @@ std::string ModuleHighlightingAndAutocomplete::parse(std::string text) {
 	}
 	resultStream << "</font>\n</text>";
 	return resultStream.str();
-}
-
-void ModuleHighlightingAndAutocomplete::Init() {
-	readFileKeyWords();
 }
 
 void ModuleHighlightingAndAutocomplete::HighlightText(std::string fileName) {

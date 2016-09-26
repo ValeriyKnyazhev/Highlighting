@@ -2,8 +2,7 @@
 #include "ModuleHighlightingAndAutocomplete.h"
 
 int main() {
-	ModuleHighlightingAndAutocomplete moduleHighlightingAndAutocomplete = ModuleHighlightingAndAutocomplete("keywords.config");
-	moduleHighlightingAndAutocomplete.Init();
+	ModuleHighlightingAndAutocomplete moduleHighlightingAndAutocomplete("keywords.config");
 	moduleHighlightingAndAutocomplete.HighlightText("test.txt");
 	return 0;
 }

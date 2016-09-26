@@ -15,8 +15,7 @@ private:
 public:
 	ModuleHighlightingAndAutocomplete(std::string);
 	ModuleHighlightingAndAutocomplete();
-
-	void Init();
+	
 	void HighlightText(std::string);
 
 	
