@@ -1,4 +1,6 @@
 #pragma once
+#include <istream>
+#include <ostream>
 #include <string>
 #include <unordered_map>
 
@@ -10,7 +12,7 @@ private:
 	std::unordered_map<std::string, Color> keyWords;//for each keyword, map contains the color number for display in the XML file
 	std::string stringKeyWords;
 	void readFileKeyWords();//read file with all keywords and colors for it
-	std::string parse(std::string text);//parse text file to xml with color font
+	void parse(std::istream& input, std::ostream& result);//parse text file to xml with color font
 
 public:
 	ModuleHighlightingAndAutocomplete(std::string fileConfig);//set file with keywords

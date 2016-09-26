@@ -27,13 +27,14 @@ void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
 	}
 }
 
-std::string ModuleHighlightingAndAutocomplete::parse(std::string text) {
-	std::stringstream resultStream;
+void ModuleHighlightingAndAutocomplete::parse(
+	std::istream& input,
+	std::ostream& resultStream
+) {
 	resultStream << "<text>\n<font color = 'black'>";
 	std::string word = "";
-	size_t index = 0;
-	while (index < text.size()) {
-		if (text[index] == '\n' || text[index] == ' ') {
+	for (char currentSymbol = input.get(); input; currentSymbol = input.get()) {
+		if (currentSymbol == '\n' || currentSymbol == ' ') {
 			bool isKeyword = false;
 			if (word.size() > 0) {
 				for (auto it : keyWords) {
@@ -66,29 +67,20 @@ std::string ModuleHighlightingAndAutocomplete::parse(std::string text) {
 				}
 			}
 			word = "";
-			resultStream << text[index];
+			resultStream << currentSymbol;
 		} else {
-			word += text[index];
+			word += currentSymbol;
 		}
-		index++;
 	}
 	resultStream << "</font>\n</text>";
-	return resultStream.str();
 }
 
 void ModuleHighlightingAndAutocomplete::HighlightText(std::string fileName) {
-	std::ifstream inputFile;
-	inputFile.open(fileName);
+	std::ifstream inputFile(fileName);
 	if (inputFile) {
-		std::stringstream stringStream;
-		stringStream << inputFile.rdbuf();
-		std::string text = stringStream.str();
-		inputFile.close();
-		std::ofstream outputFile;
-		outputFile.open("Highlighted_" + fileName);
+		std::ofstream outputFile("Highlighted_" + fileName);
 		if (outputFile) {
-			outputFile << parse(text);
-			outputFile.close();
+			parse(inputFile, outputFile);
 		}
 	}
 }
