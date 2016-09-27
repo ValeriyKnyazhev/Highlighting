@@ -27,52 +27,53 @@ void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
 	}
 }
 
+void ModuleHighlightingAndAutocomplete::coloredOutput(
+	std::ostream& resultStream,
+	const std::string& word
+) {
+	if (word.empty()) {
+		return;
+	}
+	auto keyWordIt = keyWords.find(word);
+	if (keyWordIt != keyWords.end()) {
+		resultStream << "<font color = ";
+		switch (keyWordIt->second) {
+			case Blue: {
+				resultStream << "'blue'>";
+				break;
+			}
+			case Red: {
+				resultStream << "'red'>";
+				break;
+			}
+			case Green: {
+				resultStream << "'green'>";
+				break;
+			}
+		}
+		resultStream << word << "</font>";
+	} else {
+		resultStream << "<font color = 'black'>" << word << "</font>";
+	}
+}
+
 void ModuleHighlightingAndAutocomplete::parse(
 	std::istream& input,
 	std::ostream& resultStream
 ) {
-	resultStream << "<text>\n<font color = 'black'>";
-	std::string word = "";
+	resultStream << "<text>\n";
+	std::string word;
 	for (char currentSymbol = input.get(); input; currentSymbol = input.get()) {
-		if (currentSymbol == '\n' || currentSymbol == ' ') {
-			bool isKeyword = false;
-			if (word.size() > 0) {
-				for (auto it : keyWords) {
-					if (word.substr( 0, it.first.size() ) == it.first) {
-						isKeyword = true;
-						resultStream << "</font>\n<font color = ";
-						switch (it.second) {
-							case Blue: {
-								resultStream << "'blue'>";
-								break;
-							}
-							case Red: {
-								resultStream << "'red'>";
-								break;
-							}
-							case Green: {
-								resultStream << "'green'>";
-								break;
-							}
-						}
-						resultStream << it.first << "</font>\n<font color = 'black'>";
-						if (it.first.size() < word.size()) {
-							resultStream << word.substr(it.first.size());
-						}
-						break;
-					}
-				}
-				if (!isKeyword) {
-					resultStream << word;
-				}
-			}
-			word = "";
-			resultStream << currentSymbol;
-		} else {
+		if (isalpha(currentSymbol)) {
 			word += currentSymbol;
+		} else {
+			coloredOutput(resultStream, word);
+			word.clear();
+			resultStream << currentSymbol;
 		}
 	}
-	resultStream << "</font>\n</text>";
+	coloredOutput(resultStream, word);
+	resultStream << "\n</text>";
 }
 
 void ModuleHighlightingAndAutocomplete::HighlightText(std::string fileName) {
