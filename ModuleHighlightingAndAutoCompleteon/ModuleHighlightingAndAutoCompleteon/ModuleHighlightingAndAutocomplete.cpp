@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 #include "ModuleHighlightingAndAutocomplete.h"
 #include <string>
 #include <sstream>
@@ -13,7 +14,7 @@ ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete() {
 }
 
 void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
-	//открываем файл fileConfig, в котором содержатся ключевые слова, которые надо подсвечивать
+	// РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» fileConfig, РІ РєРѕС‚РѕСЂРѕРј СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РєР»СЋС‡РµРІС‹Рµ СЃР»РѕРІР°, РєРѕС‚РѕСЂС‹Рµ РЅР°РґРѕ РїРѕРґСЃРІРµС‡РёРІР°С‚СЊ
 	std::ifstream configFile;
 	configFile.open( stringKeyWords );
 	if (configFile) {
