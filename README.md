@@ -1,2 +1,3 @@
 # ModuleHighlightingAndAutoCompleteon
-Module for highlighting and auto complete on of text at python
+
+Module for highlighting and auto completion of text in python
