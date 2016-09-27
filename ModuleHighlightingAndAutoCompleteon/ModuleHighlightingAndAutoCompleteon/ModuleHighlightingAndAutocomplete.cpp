@@ -21,30 +21,32 @@ std::ostream& operator << (std::ostream& stream, Color color) {
 	return stream << converter.find(color)->second;
 }
 
-ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(
-	std::string fileConfig
-)
-	: stringKeyWords(std::move(fileConfig))
-{
-	readFileKeyWords();
-}
+namespace {
 
-ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete() {
-}
-
-void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
+std::unordered_map<std::string, Color> readKeyWordsFile(const std::string& path) {
 	// открываем файл fileConfig, в котором содержатся ключевые слова, которые надо подсвечивать
-	std::ifstream configFile;
-	configFile.open( stringKeyWords );
+	std::unordered_map<std::string, Color> result;
+	std::ifstream configFile( path );
 	if (configFile) {
 		std::string keyWord;
 		while (configFile >> keyWord) {
 			Color color;
 			configFile >> color;
-			keyWords[keyWord] = color;
+			result[keyWord] = color;
 		}
 	}
+	return result;
 }
+
+}  // namespace
+
+ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(
+	const std::string& fileConfig
+)
+	: keyWords(readKeyWordsFile(fileConfig))
+{
+}
+
 
 void ModuleHighlightingAndAutocomplete::coloredOutput(
 	std::ostream& resultStream,
