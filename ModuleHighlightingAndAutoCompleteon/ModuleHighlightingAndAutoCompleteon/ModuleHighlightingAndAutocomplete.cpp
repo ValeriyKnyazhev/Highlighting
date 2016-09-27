@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <stdexcept>
 
 std::istream& operator >> (std::istream& stream, Color& color) {
 	int value;
@@ -12,13 +13,19 @@ std::istream& operator >> (std::istream& stream, Color& color) {
 }
 
 std::ostream& operator << (std::ostream& stream, Color color) {
-	static const std::unordered_map<Color, std::string> converter{
-		{Color::Red, "red"},
-		{Color::Blue, "blue"},
-		{Color::Green, "green"},
-		{Color::Black, "black"},
-	};
-	return stream << converter.find(color)->second;
+	switch (color) {
+		case Color::Red:
+			return stream << "red";
+		case Color::Blue:
+			return stream << "blue";
+		case Color::Green:
+			return stream << "green";
+		case Color::Black:
+			return stream << "black";
+	}
+	throw std::logic_error(
+		"Unknown color with numeric value " + std::to_string(static_cast<int>(color))
+	);
 }
 
 namespace {
