@@ -4,6 +4,23 @@
 #include <sstream>
 #include <fstream>
 
+std::istream& operator >> (std::istream& stream, Color& color) {
+	int value;
+	stream >> value;
+	color = static_cast<Color>(value);
+	return stream;
+}
+
+std::ostream& operator << (std::ostream& stream, Color color) {
+	static const std::unordered_map<Color, std::string> converter{
+		{Color::Red, "red"},
+		{Color::Blue, "blue"},
+		{Color::Green, "green"},
+		{Color::Black, "black"},
+	};
+	return stream << converter.find(color)->second;
+}
+
 ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(
 	std::string fileConfig
 )
@@ -22,9 +39,9 @@ void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
 	if (configFile) {
 		std::string keyWord;
 		while (configFile >> keyWord) {
-			int color;
+			Color color;
 			configFile >> color;
-			keyWords[keyWord] = static_cast<Color>(color);
+			keyWords[keyWord] = color;
 		}
 	}
 }
@@ -36,27 +53,13 @@ void ModuleHighlightingAndAutocomplete::coloredOutput(
 	if (word.empty()) {
 		return;
 	}
-	auto keyWordIt = keyWords.find(word);
-	if (keyWordIt != keyWords.end()) {
-		resultStream << "<font color = ";
-		switch (keyWordIt->second) {
-			case Blue: {
-				resultStream << "'blue'>";
-				break;
-			}
-			case Red: {
-				resultStream << "'red'>";
-				break;
-			}
-			case Green: {
-				resultStream << "'green'>";
-				break;
-			}
-		}
-		resultStream << word << "</font>";
-	} else {
-		resultStream << "<font color = 'black'>" << word << "</font>";
-	}
+	auto it = keyWords.find(word);
+	Color color = it != keyWords.end() ? it->second : Color::Black;
+	resultStream
+		<< "<font color = \"" << color << "\">"
+		<< word
+		<< "</font>"
+	;
 }
 
 void ModuleHighlightingAndAutocomplete::parse(
