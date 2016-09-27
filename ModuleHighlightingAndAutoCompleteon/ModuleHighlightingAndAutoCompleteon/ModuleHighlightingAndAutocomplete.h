@@ -19,6 +19,6 @@ public:
 	ModuleHighlightingAndAutocomplete(std::string fileConfig);//set file with keywords
 	ModuleHighlightingAndAutocomplete();
 	
-	void HighlightText(std::string fileName);//extract code with highlighting from file with name(fileName) to file with name("Highlighted_" + fileName)
+	void HighlightText(const std::string& fileName);//extract code with highlighting from file with name(fileName) to file with name("Highlighted_" + fileName)
 
 };

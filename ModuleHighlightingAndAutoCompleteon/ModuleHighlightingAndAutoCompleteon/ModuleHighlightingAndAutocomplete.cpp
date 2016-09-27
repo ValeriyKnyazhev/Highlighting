@@ -4,13 +4,15 @@
 #include <sstream>
 #include <fstream>
 
-ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(std::string fileConfig) {
-	stringKeyWords = fileConfig;
+ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(
+	std::string fileConfig
+)
+	: stringKeyWords(std::move(fileConfig))
+{
 	readFileKeyWords();
 }
 
 ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete() {
-	stringKeyWords = "";
 }
 
 void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
@@ -19,12 +21,11 @@ void ModuleHighlightingAndAutocomplete::readFileKeyWords() {
 	configFile.open( stringKeyWords );
 	if (configFile) {
 		std::string keyWord;
-		int color;
 		while (configFile >> keyWord) {
+			int color;
 			configFile >> color;
 			keyWords[keyWord] = static_cast<Color>(color);
 		}
-		configFile.close();
 	}
 }
 
@@ -77,7 +78,7 @@ void ModuleHighlightingAndAutocomplete::parse(
 	resultStream << "\n</text>";
 }
 
-void ModuleHighlightingAndAutocomplete::HighlightText(std::string fileName) {
+void ModuleHighlightingAndAutocomplete::HighlightText(const std::string& fileName) {
 	std::ifstream inputFile(fileName);
 	if (inputFile) {
 		std::ofstream outputFile("Highlighted_" + fileName);
