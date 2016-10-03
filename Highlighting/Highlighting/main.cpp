@@ -3,19 +3,17 @@
 #include <vector>
 #include "Tokenizer.h"
 #include <unordered_set>
-#include <vector>
 #include "Highlighting.h"
 #include "IdentifierParser.h"
 #include "TestIdentifier.h"
-using namespace Yapynb;
 
 using namespace Yapynb;
 
 int main() {
-	std::string text(
+	std::string text{
 		std::istreambuf_iterator<char>(std::cin),
 		std::istreambuf_iterator<char>()
-	);
+	};
 
 	CPythonTokenizer tokenizer(text);
 	auto tokens = tokenizer.Tokenize();

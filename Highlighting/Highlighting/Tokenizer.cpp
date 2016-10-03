@@ -46,17 +46,18 @@ public:
 		best.Type = CToken::TType::End;
 		for (const auto& tokenRegexp : TokenRegexps) {
 			std::smatch matchedHere;
-			std::regex_search(begin, end, matchedHere, tokenRegexp.second);
-			auto bestHere = *std::max_element(
-				matchedHere.begin(),
-				matchedHere.end(),
-				[](const auto& a, const auto& b) {
+			if (std::regex_search(begin, end, matchedHere, tokenRegexp.second)) {
+				auto bestHere = *std::max_element(
+					matchedHere.begin(),
+					matchedHere.end(),
+					[](const auto& a, const auto& b) {
 					return a.length() < b.length();
 				}
-			);
-			if (bestHere.length() > (int)best.Text.size()) {
-				best.Type = tokenRegexp.first;
-				best.Text = bestHere.str();
+				);
+				if (bestHere.length() > (int)best.Text.size()) {
+					best.Type = tokenRegexp.first;
+					best.Text = bestHere.str();
+				}
 			}
 		}
 		std::advance(begin, best.Text.size());
