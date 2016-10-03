@@ -24,7 +24,8 @@ const auto RegexFlags =
 const std::vector<std::pair<CToken::TType, std::regex>> TokenRegexps{
 	{CToken::TType::Comment, std::regex("^#.*\\n", RegexFlags)},
 	{CToken::TType::StringLiteral, std::regex(R"re(^('([^']|\')*')|("([^"]\')*"))re", RegexFlags)},
-	{CToken::TType::Whitespace, std::regex("^\\s+", RegexFlags)},
+	{CToken::TType::EndOfLine, std::regex("^\\n+", RegexFlags)},
+	{CToken::TType::Whitespace, std::regex("^[\\t ]+", RegexFlags)},
 	{CToken::TType::Identifier, std::regex(R"re(^(_|[[:alpha:]])\w*)re", RegexFlags)},
 	{CToken::TType::Number, std::regex(R"re(^(\d+(\.?\d*)|\.\d+)j?)re", RegexFlags)},
 	{CToken::TType::Other, std::regex(R"re(^.)re", RegexFlags)},

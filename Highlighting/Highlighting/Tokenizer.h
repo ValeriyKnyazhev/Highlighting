@@ -11,6 +11,7 @@ public:
 	enum class TType {
 		Comment,
 		StringLiteral,
+		EndOfLine,
 		Whitespace,
 		Identifier,
 		Number,
