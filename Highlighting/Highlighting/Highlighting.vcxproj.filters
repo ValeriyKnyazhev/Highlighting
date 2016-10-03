@@ -18,10 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleHighlightingAndAutocomplete.cpp">
+    <ClCompile Include="Tokenizer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Tokenizer.cpp">
+    <ClCompile Include="Highlighting.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
@@ -31,13 +31,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModuleHighlightingAndAutocomplete.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Tokenizer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Highlighting.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 // -*- coding: utf-8 -*-
-#include "ModuleHighlightingAndAutocomplete.h"
+#include "Highlighting.h"
 #include <string>
 #include <sstream>
 #include <fstream>

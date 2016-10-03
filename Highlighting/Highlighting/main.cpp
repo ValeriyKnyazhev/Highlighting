@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ModuleHighlightingAndAutocomplete.h"
+#include "Highlighting.h"
 
 int main() {
 	ModuleHighlightingAndAutocomplete moduleHighlightingAndAutocomplete("keywords.config");

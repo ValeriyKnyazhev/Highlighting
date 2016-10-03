@@ -22,7 +22,7 @@
     <ProjectGuid>{95489019-51BF-450E-8ACD-958C39D6FBB0}</ProjectGuid>
     <RootNamespace>ModuleHighlightingAndAutoCompleteon</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>ModuleHighlightingAndAutocomplete</ProjectName>
+    <ProjectName>Highlighting</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -113,11 +113,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ModuleHighlightingAndAutocomplete.cpp" />
+    <ClCompile Include="Highlighting.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ModuleHighlightingAndAutocomplete.h" />
+    <ClInclude Include="Highlighting.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
