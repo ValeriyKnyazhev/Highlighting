@@ -47,7 +47,7 @@ std::unordered_map<std::string, Color> readKeyWordsFile(const std::string& path)
 
 }  // namespace
 
-ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(
+Highlighting::Highlighting(
 	const std::string& fileConfig
 )
 	: keyWords(readKeyWordsFile(fileConfig))
@@ -55,7 +55,7 @@ ModuleHighlightingAndAutocomplete::ModuleHighlightingAndAutocomplete(
 }
 
 
-void ModuleHighlightingAndAutocomplete::coloredOutput(
+void Highlighting::coloredOutput(
 	std::ostream& resultStream,
 	const std::string& word
 ) {
@@ -71,7 +71,7 @@ void ModuleHighlightingAndAutocomplete::coloredOutput(
 	;
 }
 
-void ModuleHighlightingAndAutocomplete::parse(
+void Highlighting::parse(
 	std::istream& input,
 	std::ostream& resultStream
 ) {
@@ -90,7 +90,7 @@ void ModuleHighlightingAndAutocomplete::parse(
 	resultStream << "\n</text>";
 }
 
-void ModuleHighlightingAndAutocomplete::HighlightText(const std::string& fileName) {
+void Highlighting::HighlightText(const std::string& fileName) {
 	std::ifstream inputFile(fileName);
 	if (inputFile) {
 		std::ofstream outputFile("Highlighted_" + fileName);
