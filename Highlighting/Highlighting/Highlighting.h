@@ -24,6 +24,8 @@ public:
 	Highlighting() = default;
 	// read file with keywords
 	Highlighting(const std::string& fileConfig);
+
+
 	
 	void HighlightText(const std::string& fileName);//extract code with highlighting from file with name(fileName) to file with name("Highlighted_" + fileName)
 
