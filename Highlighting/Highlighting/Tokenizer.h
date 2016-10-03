@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <istream>
 #include <memory>
+#include <vector>
 
 namespace Yapynb {
 
@@ -36,11 +36,18 @@ public:
 class ITokenizer {
 public:
 	virtual CToken Next() = 0;
+
+	virtual ~ITokenizer() {
+	}
+
+	std::vector<CToken> Tokenize();
 };
 
 class CPythonTokenizer : public ITokenizer {
 public:
-	CPythonTokenizer(const std::string& text);
+	explicit CPythonTokenizer(const std::string& text);
+
+	~CPythonTokenizer() override;
 
 	CToken Next() override;
 
