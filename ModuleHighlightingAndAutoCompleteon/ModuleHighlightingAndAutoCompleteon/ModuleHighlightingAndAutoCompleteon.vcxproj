@@ -114,10 +114,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModuleHighlightingAndAutocomplete.cpp" />
+    <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModuleHighlightingAndAutocomplete.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="keywords.config">

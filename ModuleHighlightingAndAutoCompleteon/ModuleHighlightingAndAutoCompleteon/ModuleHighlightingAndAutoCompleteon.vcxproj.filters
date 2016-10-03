@@ -21,6 +21,9 @@
     <ClCompile Include="ModuleHighlightingAndAutocomplete.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="Tokenizer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="keywords.config">
@@ -32,6 +35,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Tokenizer.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
