@@ -5,6 +5,15 @@
 
 namespace Yapynb {
 
+std::vector<CToken> ITokenizer::Tokenize() {
+	std::vector<CToken> result;
+	do {
+		result.push_back(Next());
+	} while (result.back().Type != CToken::TType::End);
+	result.pop_back();
+	return result;
+}
+
 namespace {
 
 const auto RegexFlags =
@@ -16,8 +25,9 @@ const auto RegexFlags =
 const std::vector<std::pair<CToken::TType, std::regex>> TokenRegexps{
 	{CToken::TType::Comment, std::regex("^#.*\\n", RegexFlags)},
 	{CToken::TType::StringLiteral, std::regex(R"re(^('([^']|\')*')|("([^"]\')*"))re", RegexFlags)},
-	{CToken::TType::Whitespace, std::regex("^\\s+", RegexFlags)},
-	{CToken::TType::Identifier, std::regex(R"re(^(_|[:alpha:])\w*)re", RegexFlags)},
+	{CToken::TType::EndOfLine, std::regex("^\\n+", RegexFlags)},
+	{CToken::TType::Whitespace, std::regex("^[\\t ]+", RegexFlags)},
+	{CToken::TType::Identifier, std::regex(R"re(^(_|[[:alpha:]])\w*)re", RegexFlags)},
 	{CToken::TType::Number, std::regex(R"re(^(\d+(\.?\d*)|\.\d+)j?)re", RegexFlags)},
 	{CToken::TType::Other, std::regex(R"re(^.)re", RegexFlags)},
 	{CToken::TType::End, std::regex(R"re(^$)re", RegexFlags)},
@@ -28,29 +38,32 @@ const std::vector<std::pair<CToken::TType, std::regex>> TokenRegexps{
 class CPythonTokenizer::CImpl {
 public:
 	CImpl(const std::string& text)
-		: begin(text.end())
+		: begin(text.begin())
 		, end(text.end())
 	{
 	}
 
 	CToken Next() {
-		std::pair<CToken::TType, std::smatch> bestMatch;
-		bestMatch.first = CToken::TType::End;
+		CToken best;
+		best.Type = CToken::TType::End;
 		for (const auto& tokenRegexp : TokenRegexps) {
-			std::smatch bestHere = *std::max_element(
-				std::sregex_iterator(begin, end, tokenRegexp.second),
-				std::sregex_iterator(),
-				[](const std::smatch& a, const std::smatch& b) {
+			std::smatch matchedHere;
+			if (std::regex_search(begin, end, matchedHere, tokenRegexp.second)) {
+				auto bestHere = *std::max_element(
+					matchedHere.begin(),
+					matchedHere.end(),
+					[](const auto& a, const auto& b) {
 					return a.length() < b.length();
 				}
-			);
-			if (bestHere.length() > bestMatch.second.length()) {
-				bestMatch.first = tokenRegexp.first;
-				bestMatch.second = bestHere;
+				);
+				if (bestHere.length() > (int)best.Text.size()) {
+					best.Type = tokenRegexp.first;
+					best.Text = bestHere.str();
+				}
 			}
 		}
-		std::advance(begin, bestMatch.second.length());
-		return CToken(bestMatch.first, bestMatch.second.str());
+		std::advance(begin, best.Text.size());
+		return best;
 	}
 
 private:
@@ -61,6 +74,10 @@ private:
 CPythonTokenizer::CPythonTokenizer(const std::string& text)
 	: impl(new CImpl(text))
 {
+}
+
+CPythonTokenizer::~CPythonTokenizer() {
+	// dtor should be here to provide std::unique_ptr with right deleter
 }
 
 CToken CPythonTokenizer::Next() {
