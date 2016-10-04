@@ -1,5 +1,8 @@
 BOARD_SIZE = 8
 
+import numpy
+from os.    path import join
+
 def under_attack(col, queens):
     left = right = col
 
