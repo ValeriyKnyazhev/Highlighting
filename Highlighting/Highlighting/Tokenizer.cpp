@@ -29,8 +29,6 @@ const std::vector<std::pair<CToken::TType, std::regex>> TokenRegexps{
 	{CToken::TType::Whitespace, std::regex("^[\\t ]+", RegexFlags)},
 	{CToken::TType::Identifier, std::regex(R"re(^(_|[[:alpha:]])\w*)re", RegexFlags)},
 	{CToken::TType::Number, std::regex(R"re(^(\d+(\.?\d*)|\.\d+)j?)re", RegexFlags)},
-	{CToken::TType::Other, std::regex(R"re(^.)re", RegexFlags)},
-	{CToken::TType::End, std::regex(R"re(^$)re", RegexFlags)},
 };
 
 }
@@ -61,6 +59,9 @@ public:
 					best.Text = bestHere.str();
 				}
 			}
+		}
+		if (best.Type == CToken::TType::End && begin != end) {
+			best = CToken(CToken::TType::Other, std::string(begin, begin + 1));
 		}
 		std::advance(begin, best.Text.size());
 		return best;
