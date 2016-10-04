@@ -21,8 +21,6 @@ int main() {
 	
 	std::cout << ((testIdentifiers1() == true) ? "Test is successfull completed.\n" : "Test is failed.\n");
 
-	Highlighting Highlighting("keywords.config");
-	Highlighting.HighlightText("test.txt");
 	TestImports::test();
 	return 0;
 }
