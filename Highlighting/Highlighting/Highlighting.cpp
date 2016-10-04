@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 #include "Highlighting.h"
-
+#include "ImportParser.h"
 #include "Tokenizer.h"
 
 namespace Yapynb {
@@ -196,6 +196,9 @@ void CHighlighting::ResetText(const std::string& text) {
 
 	IdentifierParser idParser;
 	UserDefined = idParser.getIdentifiers(Tokens);
+
+	ImportParser importParser;
+	Imported = importParser.getImports(Tokens);
 }
 
 const char* CHighlighting::TokenTag(const CToken& token) {
@@ -219,6 +222,8 @@ const char* CHighlighting::TokenTag(const CToken& token) {
 				return "builtin";
 			} else if (UserDefined.count(token.Text)) {
 				return "user-defined";
+			} else if (Imported.count(token.Text)){
+				return "imported";
 			} else {
 				return nullptr;
 			}
