@@ -112,13 +112,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ImportParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Highlighting.cpp" />
+    <ClCompile Include="TestImports.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Highlighting.h" />
+    <ClInclude Include="ImportParser.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="TestImports.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>
