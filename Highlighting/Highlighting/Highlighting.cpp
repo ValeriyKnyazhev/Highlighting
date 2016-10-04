@@ -205,9 +205,9 @@ const char* CHighlighting::TokenTag(const CToken& token) {
 		case CToken::TType::StringLiteral:
 			return "string";
 		case CToken::TType::EndOfLine:
-			// fallthrough
+			return nullptr;
 		case CToken::TType::Whitespace:
-			// fallthrough
+			return nullptr;
 		case CToken::TType::Other:
 			return nullptr;
 		case CToken::TType::Number:
