@@ -1,32 +1,35 @@
 #pragma once
+
+#include "Tokenizer.h"
+#include "IdentifierParser.h"
+
 #include <istream>
 #include <ostream>
 #include <string>
-#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
-enum class Color {
-    Red,
-    Blue,
-    Green,
-    Black,
-};
+namespace Yapynb {
 
-std::istream& operator >> (std::istream& stream, Color& color);
-std::ostream& operator << (std::ostream& stream, Color color);
-
-class Highlighting {
-private:
-	std::unordered_map<std::string, Color> keyWords;//for each keyword, map contains the color number for display in the XML file
-	void coloredOutput(std::ostream& stream, const std::string& word);
-	void parse(std::istream& input, std::ostream& result);//parse text file to xml with color font
-
+class CHighlighting {
 public:
-	Highlighting() = default;
-	// read file with keywords
-	Highlighting(const std::string& fileConfig);
+	CHighlighting() = default;
+	explicit CHighlighting(const std::string& text);
 
+	void ResetText(const std::string& text);
 
-	
-	void HighlightText(const std::string& fileName);//extract code with highlighting from file with name(fileName) to file with name("Highlighted_" + fileName)
+	void OutputTagged(std::ostream& stream);
 
+private:
+	const char* TokenTag(const CToken& token);
+
+	static const std::unordered_set<std::string> Keywords;
+	static const std::unordered_set<std::string> Builtins;
+
+	std::unordered_set<std::string> UserDefined;
+	std::unordered_set<std::string> Imported;
+
+	std::vector<CToken> Tokens;
 };
+
+}

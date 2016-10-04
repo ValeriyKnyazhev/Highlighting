@@ -1,101 +1,248 @@
 // -*- coding: utf-8 -*-
 #include "Highlighting.h"
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <stdexcept>
 
-std::istream& operator >> (std::istream& stream, Color& color) {
-	int value;
-	stream >> value;
-	color = static_cast<Color>(value);
-	return stream;
+#include "Tokenizer.h"
+
+namespace Yapynb {
+
+const std::unordered_set<std::string> CHighlighting::Keywords{
+	"and",
+	"as",
+	"assert",
+	"break",
+	"class",
+	"continue",
+	"def",
+	"del",
+	"elif",
+	"else",
+	"except",
+	"exec",
+	"finally",
+	"for",
+	"from",
+	"global",
+	"if",
+	"import",
+	"in",
+	"is",
+	"lambda",
+	"not",
+	"or",
+	"pass",
+	"print",
+	"raise",
+	"return",
+	"try",
+	"while",
+	"with",
+	"yield",
+};
+
+const std::unordered_set<std::string> CHighlighting::Builtins{
+	"ArithmeticError",
+	"AssertionError",
+	"AttributeError",
+	"BaseException",
+	"BufferError",
+	"BytesWarning",
+	"DeprecationWarning",
+	"EOFError",
+	"Ellipsis",
+	"EnvironmentError",
+	"Exception",
+	"False",
+	"FloatingPointError",
+	"FutureWarning",
+	"GeneratorExit",
+	"IOError",
+	"ImportError",
+	"ImportWarning",
+	"IndentationError",
+	"IndexError",
+	"KeyError",
+	"KeyboardInterrupt",
+	"LookupError",
+	"MemoryError",
+	"NameError",
+	"None",
+	"NotImplemented",
+	"NotImplementedError",
+	"OSError",
+	"OverflowError",
+	"PendingDeprecationWarning",
+	"ReferenceError",
+	"RuntimeError",
+	"RuntimeWarning",
+	"StandardError",
+	"StopIteration",
+	"SyntaxError",
+	"SyntaxWarning",
+	"SystemError",
+	"SystemExit",
+	"TabError",
+	"True",
+	"TypeError",
+	"UnboundLocalError",
+	"UnicodeDecodeError",
+	"UnicodeEncodeError",
+	"UnicodeError",
+	"UnicodeTranslateError",
+	"UnicodeWarning",
+	"UserWarning",
+	"ValueError",
+	"Warning",
+	"ZeroDivisionError",
+	"_",
+	"__debug__",
+	"__doc__",
+	"__import__",
+	"__name__",
+	"__package__",
+	"abs",
+	"all",
+	"any",
+	"apply",
+	"basestring",
+	"bin",
+	"bool",
+	"buffer",
+	"bytearray",
+	"bytes",
+	"callable",
+	"chr",
+	"classmethod",
+	"cmp",
+	"coerce",
+	"compile",
+	"complex",
+	"copyright",
+	"credits",
+	"delattr",
+	"dict",
+	"dir",
+	"divmod",
+	"enumerate",
+	"eval",
+	"execfile",
+	"exit",
+	"file",
+	"filter",
+	"float",
+	"format",
+	"frozenset",
+	"getattr",
+	"globals",
+	"hasattr",
+	"hash",
+	"help",
+	"hex",
+	"id",
+	"input",
+	"int",
+	"intern",
+	"isinstance",
+	"issubclass",
+	"iter",
+	"len",
+	"license",
+	"list",
+	"locals",
+	"long",
+	"map",
+	"max",
+	"memoryview",
+	"min",
+	"next",
+	"object",
+	"oct",
+	"open",
+	"ord",
+	"pow",
+	"print",
+	"property",
+	"quit",
+	"range",
+	"raw_input",
+	"reduce",
+	"reload",
+	"repr",
+	"reversed",
+	"round",
+	"set",
+	"setattr",
+	"slice",
+	"sorted",
+	"staticmethod",
+	"str",
+	"sum",
+	"super",
+	"tuple",
+	"type",
+	"unichr",
+	"unicode",
+	"vars",
+	"xrange",
+	"zip",
+};
+
+CHighlighting::CHighlighting(const std::string& text) {
+	ResetText(text);
 }
 
-std::ostream& operator << (std::ostream& stream, Color color) {
-	switch (color) {
-		case Color::Red:
-			return stream << "red";
-		case Color::Blue:
-			return stream << "blue";
-		case Color::Green:
-			return stream << "green";
-		case Color::Black:
-			return stream << "black";
+void CHighlighting::ResetText(const std::string& text) {
+	CPythonTokenizer tokenizer(text);
+	Tokens = tokenizer.Tokenize();
+
+	IdentifierParser idParser;
+	UserDefined = idParser.getIdentifiers(Tokens);
+}
+
+const char* CHighlighting::TokenTag(const CToken& token) {
+	switch (token.Type) {
+		case CToken::TType::Comment:
+			return "comment";
+		case CToken::TType::StringLiteral:
+			return "string";
+		case CToken::TType::EndOfLine:
+			// fallthrough
+		case CToken::TType::Whitespace:
+			// fallthrough
+		case CToken::TType::Other:
+			return nullptr;
+		case CToken::TType::Number:
+			return "number";
+		case CToken::TType::Identifier:
+			if (Keywords.count(token.Text)) {
+				return "keyword";
+			} else if (Builtins.count(token.Text)) {
+				return "builtin";
+			} else if (UserDefined.count(token.Text)) {
+				return "user-defined";
+			} else {
+				return nullptr;
+			}
+		case CToken::TType::End:
+			throw std::logic_error("End token should not be here");
 	}
 	throw std::logic_error(
-		"Unknown color with numeric value " + std::to_string(static_cast<int>(color))
+		"Unexpected token type "
+		+ std::to_string(int(token.Type))
+		+ " with text '" + token.Text + "'"
 	);
 }
 
-namespace {
-
-std::unordered_map<std::string, Color> readKeyWordsFile(const std::string& path) {
-	// открываем файл fileConfig, в котором содержатся ключевые слова, которые надо подсвечивать
-	std::unordered_map<std::string, Color> result;
-	std::ifstream configFile( path );
-	if (configFile) {
-		std::string keyWord;
-		while (configFile >> keyWord) {
-			Color color;
-			configFile >> color;
-			result[keyWord] = color;
+void CHighlighting::OutputTagged(std::ostream& stream) {
+	for (const CToken& token : Tokens) {
+		auto tag = TokenTag(token);
+		if (tag) {
+			stream << "<" << tag << ">";
+		}
+		stream << token.Text;
+		if (tag) {
+			stream << "</" << tag << ">";
 		}
 	}
-	return result;
 }
 
-}  // namespace
-
-Highlighting::Highlighting(
-	const std::string& fileConfig
-)
-	: keyWords(readKeyWordsFile(fileConfig))
-{
-}
-
-
-void Highlighting::coloredOutput(
-	std::ostream& resultStream,
-	const std::string& word
-) {
-	if (word.empty()) {
-		return;
-	}
-	auto it = keyWords.find(word);
-	Color color = it != keyWords.end() ? it->second : Color::Black;
-	resultStream
-		<< "<font color = \"" << color << "\">"
-		<< word
-		<< "</font>"
-	;
-}
-
-void Highlighting::parse(
-	std::istream& input,
-	std::ostream& resultStream
-) {
-	resultStream << "<text>\n";
-	std::string word;
-	for (char currentSymbol = input.get(); input; currentSymbol = input.get()) {
-		if (isalpha(currentSymbol)) {
-			word += currentSymbol;
-		} else {
-			coloredOutput(resultStream, word);
-			word.clear();
-			resultStream << currentSymbol;
-		}
-	}
-	coloredOutput(resultStream, word);
-	resultStream << "\n</text>";
-}
-
-void Highlighting::HighlightText(const std::string& fileName) {
-	std::ifstream inputFile(fileName);
-	if (inputFile) {
-		std::ofstream outputFile("Highlighted_" + fileName);
-		if (outputFile) {
-			parse(inputFile, outputFile);
-		}
-	}
 }
