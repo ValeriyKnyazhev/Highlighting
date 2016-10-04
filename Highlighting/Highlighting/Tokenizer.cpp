@@ -10,6 +10,7 @@ std::vector<CToken> ITokenizer::Tokenize() {
 	do {
 		result.push_back(Next());
 	} while (result.back().Type != CToken::TType::End);
+	result.pop_back();
 	return result;
 }
 
