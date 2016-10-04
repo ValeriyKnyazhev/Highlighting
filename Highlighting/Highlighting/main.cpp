@@ -16,14 +16,8 @@ int main() {
 		std::istreambuf_iterator<char>()
 	};
 
-	CPythonTokenizer tokenizer(text);
-	auto tokens = tokenizer.Tokenize();
-	for (auto tok : tokens) {
-		std::cout << tok.Text << std::endl;
-	}
-
-	//Highlighting Highlighting("keywords.config");
-	//Highlighting.HighlightText("test.txt");
+	CHighlighting high(text);
+	high.OutputTagged(std::cout);
 	
 	std::cout << ((testIdentifiers1() == true) ? "Test is successfull completed.\n" : "Test is failed.\n");
 
