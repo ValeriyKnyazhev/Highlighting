@@ -31,6 +31,6 @@ int main() {
 	};
 	CHighlighting high(text);
 	high.OutputTagged(std::cout);
-	
+	system("pause");
 	return 0;
 }

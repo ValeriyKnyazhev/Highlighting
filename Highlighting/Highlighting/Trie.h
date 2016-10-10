@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <deque>
 
 
 namespace Yapynb {
@@ -68,7 +69,7 @@ private:
 
     TPosition NewNode();
 
-    std::vector<CNode> Nodes;
+    std::deque<CNode> Nodes;
 };
 
 template<class OutputIt>

@@ -119,6 +119,8 @@
     <ClCompile Include="TestIdentifier.cpp" />
     <ClCompile Include="TestImports.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
+    <ClCompile Include="Trie.cpp" />
+    <ClCompile Include="TrieTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Highlighting.h" />
@@ -128,6 +130,8 @@
     <ClInclude Include="TestIdentifier.h" />
     <ClInclude Include="TestImports.h" />
     <ClInclude Include="Tokenizer.h" />
+    <ClInclude Include="Trie.h" />
+    <ClInclude Include="TrieTest.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="keywords.config">
