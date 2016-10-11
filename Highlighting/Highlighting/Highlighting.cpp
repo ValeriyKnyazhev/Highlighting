@@ -1,26 +1,19 @@
 // -*- coding: utf-8 -*-
 #include "Highlighting.h"
-#include "ImportParser.h"
-#include "Tokenizer.h"
 
 namespace Yapynb {
 
 extern const std::unordered_set<std::string> Keywords;
 extern const std::unordered_set<std::string> Builtins;
 
-CHighlighting::CHighlighting(const std::string& text) {
-	ResetText(text);
-}
-
-void CHighlighting::ResetText(const std::string& text) {
-	CPythonTokenizer tokenizer(text);
-	Tokens = tokenizer.Tokenize();
-
-	IdentifierParser idParser;
-	UserDefined = idParser.getIdentifiers(Tokens);
-
-	ImportParser importParser;
-	Imported = importParser.getImports(Tokens);
+void CHighlighting::ResetTokens(
+	const std::vector<CToken>& tokens, 
+	const std::unordered_set<std::string>& userDefined, 
+	const std::unordered_set<std::string>& imported 
+	) {
+	Tokens = tokens;
+	UserDefined = userDefined;
+	Imported = imported;
 }
 
 const char* CHighlighting::TokenTag(const CToken& token) {

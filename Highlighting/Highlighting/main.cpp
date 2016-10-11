@@ -7,13 +7,21 @@
 #include "IdentifierParser.h"
 #include "TestIdentifier.h"
 #include "TestImports.h"
+#include "TextProcessor.h"
 #include "TrieTest.h"
+#include <sstream>
+#include <fstream>
 
 using namespace Yapynb;
 
 int main() {
 	TrieTest();
 	std::cout << "Trie test was successful\n";
+
+	std::ifstream fin("test.txt");
+	std::stringstream buffer;
+	buffer << fin.rdbuf();
+	std::string text = buffer.str();
 
 	std::cout << (
 		(testIdentifiers1() == true)
@@ -23,14 +31,9 @@ int main() {
 
 	TestImports::test();
 
-	std::cout << "Now enter the input for highlighter:\n";
-
-	std::string text{
-		std::istreambuf_iterator<char>(std::cin),
-		std::istreambuf_iterator<char>()
-	};
-	CHighlighting high(text);
-	high.OutputTagged(std::cout);
+	CTextProcessor processor;
+	processor.ResetText(text);
+	std::cout << processor.GetTaggedText();
 	system("pause");
 	return 0;
 }

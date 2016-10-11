@@ -119,6 +119,7 @@
     <ClCompile Include="Highlighting.cpp" />
     <ClCompile Include="TestIdentifier.cpp" />
     <ClCompile Include="TestImports.cpp" />
+    <ClCompile Include="TextProcessor.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
     <ClCompile Include="Trie.cpp" />
     <ClCompile Include="TrieTest.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="TestIdentifier.h" />
     <ClInclude Include="TestImports.h" />
+    <ClInclude Include="TextProcessor.h" />
     <ClInclude Include="Tokenizer.h" />
     <ClInclude Include="Trie.h" />
     <ClInclude Include="TrieTest.h" />
