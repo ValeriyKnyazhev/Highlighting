@@ -112,6 +112,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Constants.cpp" />
     <ClCompile Include="IdentifierParser.cpp" />
     <ClCompile Include="ImportParser.cpp" />
     <ClCompile Include="main.cpp" />

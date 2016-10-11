@@ -23,9 +23,6 @@ public:
 private:
 	const char* TokenTag(const CToken& token);
 
-	static const std::unordered_set<std::string> Keywords;
-	static const std::unordered_set<std::string> Builtins;
-
 	std::unordered_set<std::string> UserDefined;
 	std::unordered_set<std::string> Imported;
 
