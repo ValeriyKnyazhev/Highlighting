@@ -2,6 +2,7 @@
 
 #include "Tokenizer.h"
 #include "Highlighting.h"
+#include "Autocomplete.h"
 #include "ImportParser.h"
 #include "IdentifierParser.h"
 
@@ -17,11 +18,17 @@ public:
 
 	void ResetText(const std::string& text);
 	std::string GetTaggedText();
+	std::vector<std::string> GetCompletions(
+		const std::string& prefix, 
+		size_t limit = std::numeric_limits<int>::max()
+		);
 
 private:
-	CHighlighting highlighter;
+	CHighlighting Highlighter;
+	CAutocomplete Autocompleter;
 	std::vector<CToken> Tokens;
-	std::vector<std::string> specialWords;
+	std::unordered_set<std::string> UserDefined;
+	std::unordered_set<std::string> Imported;
 
 	static IdentifierParser idParser;
 	static ImportParser importParser;

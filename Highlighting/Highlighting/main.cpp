@@ -34,6 +34,16 @@ int main() {
 	CTextProcessor processor;
 	processor.ResetText(text);
 	std::cout << processor.GetTaggedText();
+	std::string prefix = "r";
+	std::vector<std::string> completions = processor.GetCompletions(prefix);
+	if (completions.size() > 0) {
+		std::cout << completions.size() << " completions found:\n";
+	} else {
+		std::cout << "No completions found.\n";
+	}
+	for (std::string word : completions) {
+		std::cout << prefix << word << std::endl;
+	}
 	system("pause");
 	return 0;
 }

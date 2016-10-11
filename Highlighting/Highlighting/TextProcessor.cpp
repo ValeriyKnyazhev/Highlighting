@@ -1,6 +1,7 @@
 #include "TextProcessor.h"
 #include <sstream> 
 #include <iterator> 
+#include <limits>
 
 namespace Yapynb {
 
@@ -13,19 +14,25 @@ ImportParser CTextProcessor::importParser = ImportParser();
 void CTextProcessor::ResetText(const std::string & text) {
 	CPythonTokenizer tokenizer(text);
 	Tokens = tokenizer.Tokenize();
-	std::unordered_set<std::string> userDefined = idParser.getIdentifiers(Tokens);
-	std::unordered_set<std::string> imported = importParser.getImports(Tokens);
-	highlighter.ResetTokens(Tokens, userDefined, imported);
-	std::copy(userDefined.begin(), userDefined.end(), std::back_inserter(specialWords));
-	std::copy(imported.begin(), imported.end(), std::back_inserter(specialWords));
-	std::copy(Keywords.begin(), Keywords.end(), std::back_inserter(specialWords));
-	std::copy(Builtins.begin(), Builtins.end(), std::back_inserter(specialWords));
+	UserDefined = idParser.getIdentifiers(Tokens);
+	Imported = importParser.getImports(Tokens);
 }
 
 std::string CTextProcessor::GetTaggedText() {
+	Highlighter.ResetTokens(Tokens, UserDefined, Imported);
 	std::ostringstream stream;
-	highlighter.OutputTagged(stream);
+	Highlighter.OutputTagged(stream);
     return stream.str();
+}
+
+std::vector<std::string> CTextProcessor::GetCompletions(const std::string& prefix, size_t limit) {
+	std::vector<std::string> specialWords;
+	std::copy(UserDefined.begin(), UserDefined.end(), std::back_inserter(specialWords));
+	std::copy(Imported.begin(), Imported.end(), std::back_inserter(specialWords));
+	std::copy(Keywords.begin(), Keywords.end(), std::back_inserter(specialWords));
+	std::copy(Builtins.begin(), Builtins.end(), std::back_inserter(specialWords));
+	Autocompleter.ResetTrie(specialWords);
+	return Autocompleter.GetCompletions(prefix, limit);
 }
 
 
