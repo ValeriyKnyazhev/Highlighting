@@ -6,9 +6,9 @@
 
 namespace Yapynb {
 
-	void fillVectorTokensForTestIdentifiers1(std::vector<CToken>& tokens);
+	void fillVectorTokensForTestIdentifiers1( std::vector<CToken>& tokens );
 
-	void fillSetIdentifiersTest1(std::unordered_set<std::string>& identifiers);
+	void fillSetIdentifiersTest1( std::unordered_set<std::string>& identifiers );
 
 	bool testIdentifiers1();
 }

@@ -92,6 +92,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -130,7 +131,7 @@
     <ClInclude Include="Highlighting.h" />
     <ClInclude Include="IdentifierParser.h" />
     <ClInclude Include="ImportParser.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestIdentifier.h" />
     <ClInclude Include="TestImports.h" />
     <ClInclude Include="TextProcessor.h" />

@@ -1,7 +1,9 @@
+#include "stdafx.h"
 #include "TestImports.h"
-#include <cassert>  
 
-void TestImports::test() {
+
+void TestImports::test()
+{
 	ImportParser parser;
 	std::vector<CToken> tokens = {
 		CToken( CToken::TType::Identifier, "from" ),
@@ -27,7 +29,7 @@ void TestImports::test() {
 		CToken( CToken::TType::Whitespace, " " ),
 		CToken( CToken::TType::Identifier, "d" )
 	};
-	std::unordered_set<std::string> result = parser.getImports(tokens);
-	assert(result.size() == 3 && result.find( "f" ) != result.end() &&
-		result.find( "c" ) != result.end() && result.find( "d" ) != result.end());
+	std::unordered_set<std::string> result = parser.getImports( tokens );
+	assert( result.size() == 3 && result.find( "f" ) != result.end() &&
+		result.find( "c" ) != result.end() && result.find( "d" ) != result.end() );
 }

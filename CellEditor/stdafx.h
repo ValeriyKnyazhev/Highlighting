@@ -8,7 +8,7 @@
 #include <memory>
 #include <vector>
 #include <fstream>
+#include <CommCtrl.h>
 
-
-#include "CommCtrl.h"
+#include "targetver.h"
 #include "resource.h"
