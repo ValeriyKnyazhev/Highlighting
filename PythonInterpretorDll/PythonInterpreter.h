@@ -24,7 +24,7 @@ public:
 	**/
 	void Run(
 		const std::string& text,
-		std::shared_ptr<IReturnResultCallback> callback);
+		std::shared_ptr<IReturnResultCallback> callback );
 
 	/**
 	* Reset interpreter state
