@@ -16,7 +16,7 @@ CellWindow::CellWindow()
 
 void CellWindow::Create( HWND parentHandle )
 {
-	checkHandle( parentHandle );
+	CellResult::checkHandle( parentHandle );
 
 	//can use ES_AUTOHSCROLL, if we want to move inside the cell only by using the pointer
 	handleCellWindow = CreateWindowEx( 0,
@@ -36,7 +36,7 @@ void CellWindow::Create( HWND parentHandle )
 	//TODO: Add scrollbar, when the length of the text is larger than the length of the window
 	ShowScrollBar( handleCellWindow, SB_HORZ, FALSE );
 
-	checkHandle( handleCellWindow );
+	CellResult::checkHandle( handleCellWindow );
 
 	result.Create( parentHandle );
 	init();

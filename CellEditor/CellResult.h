@@ -22,7 +22,8 @@ public:
 	std::wstring getText() const;
 
 	friend bool operator== ( const CellResult& left, const CellResult& right );
-
+	
+	static void checkHandle( const HWND handle );
 private:
 
 	HWND handleCellResult;

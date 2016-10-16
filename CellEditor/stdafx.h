@@ -12,9 +12,3 @@
 
 #include "CommCtrl.h"
 #include "resource.h"
-
-// TODO remove this code below
-
-const int SuccessDestroyWindowValue = 0;
-
-void checkHandle( HWND handle );

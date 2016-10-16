@@ -84,6 +84,14 @@ std::wstring CellResult::getText() const
 	return text;
 }
 
+void CellResult::checkHandle( const HWND handle )
+{
+	if( handle == 0 ) {
+		MessageBox( handle, L"Error: handle is NULL", NULL, MB_OK );
+	}
+	assert( handle != 0 );
+}
+
 bool operator== ( const CellResult& left, const CellResult& right )
 {
 	return left.getHandle() == right.getHandle();

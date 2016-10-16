@@ -24,7 +24,6 @@ public:
 	std::wstring getText() const;
 
 	friend bool operator== ( const CellWindow& left, const CellWindow& right );
-
 private:
 
 	HWND handleCellWindow;

@@ -56,7 +56,7 @@ bool YaPyN_Editor::Create()
 		this );
 
 	createToolbar();
-	checkHandle( handleMainWindow );
+	CellResult::checkHandle( handleMainWindow );
 	SetScrollRange( handleMainWindow, SB_VERT, 0, 10000, FALSE );
 	return (handleMainWindow != 0);
 }
@@ -421,7 +421,7 @@ void YaPyN_Editor::deleteCell()
 {
 	if( activeCell != childrensWindow.end() ) {
 		HWND hwnd = activeCell->getHandle();
-		checkHandle( hwnd );
+		CellResult::checkHandle( hwnd );
 		DestroyWindow( activeCell->getHandleOfResult() );
 		DestroyWindow( hwnd );
 		auto oldCell = activeCell;
@@ -504,6 +504,8 @@ void YaPyN_Editor::runCell()
 		}
 	}
 }
+
+const int YaPyN_Editor::SuccessDestroyWindowValue = 0;
 
 unsigned int YaPyN_Editor::getCountsOfStrings( HWND handleCell )
 {

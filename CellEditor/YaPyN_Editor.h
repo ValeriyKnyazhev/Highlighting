@@ -53,6 +53,10 @@ private:
 	void resizeCell(HWND handleCell);
 	void clearCells();
 	void runCell();
+	BOOL getMessageResult = 0;
+
+	static const int SuccessDestroyWindowValue;
+
 
 	unsigned int getCountsOfStrings(HWND handleCell);
 
