@@ -21,7 +21,7 @@ protected:
 	void OnSize();
 	void OnDestroy();
 	bool OnClose();
-	void OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	void OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
 	void OnCellClick();
 	LRESULT OnCtlColorEdit(WPARAM wParam, LPARAM lParam);
 

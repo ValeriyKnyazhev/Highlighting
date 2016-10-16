@@ -152,7 +152,7 @@ bool YaPyN_Editor::OnClose()
 	return true;
 }
 
-void YaPyN_Editor::OnCommand( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 {
 	if( HIWORD( wParam ) == 0 ) {
 		switch( LOWORD( wParam ) ) {
@@ -320,8 +320,8 @@ bool YaPyN_Editor::saveFile()
 	openFileName.lpstrFile[0] = '\0';
 	openFileName.nMaxFile = sizeof( file );
 
-	bool result;
-	if( result = GetSaveFileName( &openFileName ) ) {
+	int result = GetSaveFileName( &openFileName );
+	if( result ) {
 
 		std::wofstream fout;
 		fout.open( file );
@@ -338,6 +338,9 @@ bool YaPyN_Editor::saveFile()
 		}
 		fout.close();
 	}
+	// TODO done something (for example change return value)
+#pragma warning(push)
+#pragma warning(disable:4800)
 	return result;
 }
 
@@ -353,8 +356,8 @@ bool YaPyN_Editor::loadFile()
 	openFileName.lpstrFile[0] = '\0';
 	openFileName.nMaxFile = sizeof( file );
 
-	bool result;
-	if( result = GetOpenFileName( &openFileName ) ) {
+	int result = GetOpenFileName( &openFileName );
+	if( result ) {
 		std::ifstream fin;
 		fin.open( file );
 		if( !fin ) {
@@ -376,6 +379,7 @@ bool YaPyN_Editor::loadFile()
 		InvalidateRect( handleMainWindow, NULL, FALSE );
 	}
 	return result;
+#pragma warning(pop)
 }
 
 bool YaPyN_Editor::askToSave( const wchar_t* text )
@@ -511,18 +515,17 @@ unsigned int YaPyN_Editor::getCountsOfStrings( HWND handleCell )
 {
 	unsigned int countOfN = 0;
 	unsigned int indexOfN = 0;
-	unsigned int countOfLongStrings = 0;
 
 	int length = SendMessage( handleCell, WM_GETTEXTLENGTH, 0, 0 );
 	std::shared_ptr<wchar_t> text_ptr( new wchar_t[length + 1] );
 	wchar_t* text = text_ptr.get();
 	SendMessage( handleCell, WM_GETTEXT, length + 1, reinterpret_cast<LPARAM>(text) );
 
-	if( text[0] = '\n' ) {
+	if( text[0] == '\n' ) {
 		++countOfN;
 	}
 
-	for( int i = 1; i < wcslen( text ); ++i ) {
+	for( int i = 1; i < static_cast<int>(wcslen( text )); ++i ) {
 		if( text[i] == '\n' ) {
 			++countOfN;
 			indexOfN = i;
@@ -573,7 +576,7 @@ LRESULT YaPyN_Editor::windowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		}
 		case WM_COMMAND:
 		{
-			window->OnCommand( hwnd, message, wParam, lParam );
+			window->OnCommand( hwnd, wParam, lParam );
 			return DefWindowProc( hwnd, message, wParam, lParam );
 		}
 		case WM_DESTROY:

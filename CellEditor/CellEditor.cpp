@@ -4,6 +4,10 @@
 
 int WINAPI wWinMain( HINSTANCE instance, HINSTANCE prevInstance, LPWSTR commandLine, int cmdShow )
 {
+	UNREFERENCED_PARAMETER( instance );
+	UNREFERENCED_PARAMETER( commandLine );
+	UNREFERENCED_PARAMETER( prevInstance );
+
 	setlocale( LC_ALL, "Russian" );
 
 	if( !YaPyN_Editor::RegisterClass() ) {

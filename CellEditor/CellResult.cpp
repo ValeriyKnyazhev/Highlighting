@@ -102,7 +102,8 @@ void CellResult::init()
 	HMODULE module = ::GetModuleHandle( 0 );
 	HRSRC resourseHandle = ::FindResource( module, MAKEINTRESOURCE( IDR_TEXT1 ), L"TEXT" );
 	HGLOBAL handleData = ::LoadResource( module, resourseHandle );
-	DWORD size = ::SizeofResource( module, resourseHandle );
+	// TODO warning
+	// DWORD size = ::SizeofResource( module, resourseHandle );
 	LPVOID data = LockResource( handleData );
 	SetWindowText( handleCellResult, reinterpret_cast<LPCWSTR>(data) );
 }
