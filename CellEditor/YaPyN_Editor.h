@@ -55,6 +55,8 @@ private:
 	void resizeCell( HWND handleCell );
 	void clearCells();
 	void runCell();
+	void resetInterpetor();
+	void ExceptionBox( std::exception e );
 	BOOL getMessageResult = 0;
 
 	static const int SuccessDestroyWindowValue;

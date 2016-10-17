@@ -172,6 +172,17 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="CellEditor.ico" />
+    <Image Include="Icons\arrow-up.bmp" />
+    <Image Include="Icons\arrow-up.png" />
+    <Image Include="icons\bitmap5.bmp" />
+    <Image Include="icons\bitmap6.bmp" />
+    <Image Include="icons\bmp00001.bmp" />
+    <Image Include="Icons\empty.bmp" />
+    <Image Include="Icons\plus.bmp" />
+    <Image Include="icons\reset.bmp" />
+    <Image Include="icons\run.bmp" />
+    <Image Include="Icons\toolbar.bmp" />
+    <Image Include="icons\up.bmp" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>

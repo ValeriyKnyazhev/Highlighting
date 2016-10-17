@@ -217,6 +217,11 @@ void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 				runCell();
 				break;
 			}
+			case ID_CELL_RESET:
+			{
+				resetInterpetor();
+				break;
+			}
 			default:
 			{
 				break;
@@ -296,6 +301,7 @@ void YaPyN_Editor::createToolbar()
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_UP ) ), NULL );
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_DOWN ) ), NULL );
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_RUN ) ), NULL );
+	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_RESET ) ), NULL );
 	SendMessage( handleToolbar, TB_SETIMAGELIST, (WPARAM)1, (LPARAM)hImageList );
 
 	TBBUTTON tbb[] =
@@ -305,6 +311,7 @@ void YaPyN_Editor::createToolbar()
 		{ MAKELONG( 2, 1 ), ID_CELL_UP, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 		{ MAKELONG( 3, 1 ), ID_CELL_DOWN, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 		{ MAKELONG( 4, 1 ), ID_CELL_RUN, TBSTATE_ENABLED, TBSTYLE_BUTTON },
+		{ MAKELONG( 5, 1 ), ID_CELL_RESET, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 	};
 
 	SendMessage( handleToolbar, (UINT)TB_ADDBUTTONS, _countof( tbb ), (LPARAM)&tbb );
@@ -508,11 +515,7 @@ void YaPyN_Editor::runCell()
 			MessageBox( NULL, e, L"Exception", NULL );
 		}
 		catch( std::exception e ) {
-			LPWSTR exceptionText;
-			DWORD textLen = MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, NULL, 0 );
-			exceptionText = static_cast<LPWSTR>(GlobalAlloc( GPTR, (textLen + 1 ) * sizeof( WCHAR )));
-			MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, exceptionText, textLen );
-			MessageBox( NULL, exceptionText, L"Exception", NULL );
+			ExceptionBox( e );
 		}
 		SendMessage( handleMainWindow, WM_SIZE, 0, 0 );
 		InvalidateRect( handleMainWindow, NULL, FALSE );
@@ -525,7 +528,26 @@ void YaPyN_Editor::runCell()
 	}
 }
 
-const int YaPyN_Editor::SuccessDestroyWindowValue = 0;
+void YaPyN_Editor::resetInterpetor()
+{
+	try {
+		pythonInterpretor.Reset();
+	}
+	catch( std::exception e ) {
+		ExceptionBox( e );
+	}
+}
+
+void YaPyN_Editor::ExceptionBox( std::exception e )
+{
+	LPWSTR exceptionText;
+	DWORD textLen = MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, NULL, 0 );
+	exceptionText = static_cast<LPWSTR>(GlobalAlloc( GPTR, (textLen + 1) * sizeof( WCHAR ) ));
+	MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, exceptionText, textLen );
+	MessageBox( NULL, exceptionText, L"Exception", NULL );
+}
+
+const	int YaPyN_Editor::SuccessDestroyWindowValue = 0;
 
 unsigned int YaPyN_Editor::getCountsOfStrings( HWND handleCell )
 {
