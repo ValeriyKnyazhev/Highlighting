@@ -20,8 +20,7 @@ void CellResult::Create( HWND parentHandle )
 	handleCellResult = CreateWindowEx( 0,
 		L"EDIT",
 		0,
-		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER | ES_READONLY //| ES_AUTOHSCROLL
-		| WS_HSCROLL,
+		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER | ES_READONLY | ES_AUTOHSCROLL | WS_HSCROLL,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -33,6 +32,7 @@ void CellResult::Create( HWND parentHandle )
 
 	//TODO: Add scrollbar, when the length of the text is larger than the length of the window
 	ShowScrollBar( handleCellResult, SB_HORZ, FALSE );
+	EnableScrollBar( handleCellResult, SB_HORZ, ESB_DISABLE_RIGHT );
 
 	checkHandle( handleCellResult );
 
