@@ -1,6 +1,4 @@
-﻿#include "stdafx.h"
-
-#include "CellResult.h"
+﻿#include "CellResult.h"
 
 const int heightOfString = 18;
 
@@ -12,15 +10,15 @@ CellResult::CellResult()
 	isExist = false;
 }
 
-void CellResult::Create( HWND parentHandle )
+void CellResult::Create(HWND parentHandle)
 {
-	checkHandle( parentHandle );
+	checkHandle(parentHandle);
 
 	//can use ES_AUTOHSCROLL, if we want to move inside the cell only by using the pointer
-	handleCellResult = CreateWindowEx( 0,
+	handleCellResult = CreateWindowEx(0,
 		L"EDIT",
 		0,
-		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER | ES_READONLY //| ES_AUTOHSCROLL
+		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER | ES_READONLY | ES_AUTOHSCROLL
 		| WS_HSCROLL,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -28,21 +26,21 @@ void CellResult::Create( HWND parentHandle )
 		CW_USEDEFAULT,
 		parentHandle,
 		0,
-		GetModuleHandle( 0 ),
-		0 );
+		GetModuleHandle(0),
+		0);
 
 	//TODO: Add scrollbar, when the length of the text is larger than the length of the window
-	ShowScrollBar( handleCellResult, SB_HORZ, FALSE );
+	ShowScrollBar(handleCellResult, SB_HORZ, FALSE);
 
-	checkHandle( handleCellResult );
+	checkHandle(handleCellResult);
 
 	init();
-	SetFocus( handleCellResult );
+	SetFocus(handleCellResult);
 }
 
-void CellResult::Show( int cmdShow )
+void CellResult::Show(int cmdShow)
 {
-	ShowWindow( handleCellResult, cmdShow );
+	ShowWindow(handleCellResult, cmdShow);
 }
 
 HWND CellResult::getHandle() const
@@ -55,7 +53,7 @@ unsigned int CellResult::getHeight() const
 	return height;
 }
 
-bool CellResult::changeHeight( unsigned int newCountOfStrings )
+bool CellResult::changeHeight(unsigned int newCountOfStrings)
 {
 	bool changed = (countOfStrings != newCountOfStrings);
 	countOfStrings = ((newCountOfStrings == 0) ? 1 : newCountOfStrings) + 1;
@@ -69,41 +67,32 @@ bool CellResult::getExistence() const
 	return isExist;
 }
 
-void CellResult::setExistence( bool existence )
+void CellResult::setExistence(bool existence)
 {
 	isExist = existence;
 }
 
 std::wstring CellResult::getText() const
 {
-	int length = SendMessage( handleCellResult, WM_GETTEXTLENGTH, 0, 0 );
+	int length = SendMessage(handleCellResult, WM_GETTEXTLENGTH, 0, 0);
 	length++;
 	std::wstring text;
-	text.resize( length );
-	::GetWindowText( handleCellResult, (LPWSTR)text.c_str(), length );
+	text.resize(length);
+	::GetWindowText(handleCellResult, (LPWSTR)text.c_str(), length);
 	return text;
 }
 
-void CellResult::checkHandle( const HWND handle )
-{
-	if( handle == 0 ) {
-		MessageBox( handle, L"Error: handle is NULL", NULL, MB_OK );
-	}
-	assert( handle != 0 );
-}
-
-bool operator== ( const CellResult& left, const CellResult& right )
+bool operator== (const CellResult& left, const CellResult& right)
 {
 	return left.getHandle() == right.getHandle();
 }
 
 void CellResult::init()
 {
-	HMODULE module = ::GetModuleHandle( 0 );
-	HRSRC resourseHandle = ::FindResource( module, MAKEINTRESOURCE( IDR_TEXT1 ), L"TEXT" );
-	HGLOBAL handleData = ::LoadResource( module, resourseHandle );
-	// TODO warning
-	// DWORD size = ::SizeofResource( module, resourseHandle );
-	LPVOID data = LockResource( handleData );
-	SetWindowText( handleCellResult, reinterpret_cast<LPCWSTR>(data) );
+	HMODULE module = ::GetModuleHandle(0);
+	HRSRC resourseHandle = ::FindResource(module, MAKEINTRESOURCE(IDR_TEXT1), L"TEXT");
+	HGLOBAL handleData = ::LoadResource(module, resourseHandle);
+	DWORD size = ::SizeofResource(module, resourseHandle);
+	LPVOID data = LockResource(handleData);
+	SetWindowText(handleCellResult, reinterpret_cast<LPCWSTR>(data));
 }
