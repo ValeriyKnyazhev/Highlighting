@@ -1,6 +1,4 @@
 ﻿#pragma once
-
-#include "precompiled.h"
 #include "CellWindow.h"
 
 class YaPyN_Editor
@@ -23,7 +21,7 @@ protected:
 	void OnSize();
 	void OnDestroy();
 	bool OnClose();
-	void OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	void OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
 	void OnCellClick();
 	LRESULT OnCtlColorEdit(WPARAM wParam, LPARAM lParam);
 
@@ -55,6 +53,10 @@ private:
 	void resizeCell(HWND handleCell);
 	void clearCells();
 	void runCell();
+	BOOL getMessageResult = 0;
+
+	static const int SuccessDestroyWindowValue;
+
 
 	unsigned int getCountsOfStrings(HWND handleCell);
 

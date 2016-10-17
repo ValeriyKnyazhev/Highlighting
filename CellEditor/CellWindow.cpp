@@ -1,4 +1,6 @@
-﻿#include "CellWindow.h"
+﻿#include "stdafx.h"
+
+#include "CellWindow.h"
 
 // Временный размер окна текста.
 const int temporarySize = 34;
@@ -12,15 +14,15 @@ CellWindow::CellWindow()
 	countOfStrings = 0;
 }
 
-void CellWindow::Create(HWND parentHandle)
+void CellWindow::Create( HWND parentHandle )
 {
-	checkHandle(parentHandle);
+	CellResult::checkHandle( parentHandle );
 
 	//can use ES_AUTOHSCROLL, if we want to move inside the cell only by using the pointer
-	handleCellWindow = CreateWindowEx(0,
+	handleCellWindow = CreateWindowEx( 0,
 		L"EDIT",
 		0,
-		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER | ES_AUTOHSCROLL
+		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER //| ES_AUTOHSCROLL
 		| WS_HSCROLL,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -28,22 +30,22 @@ void CellWindow::Create(HWND parentHandle)
 		CW_USEDEFAULT,
 		parentHandle,
 		0,
-		GetModuleHandle(0),
-		0);
+		GetModuleHandle( 0 ),
+		0 );
 
 	//TODO: Add scrollbar, when the length of the text is larger than the length of the window
-	ShowScrollBar(handleCellWindow, SB_HORZ, FALSE);
+	ShowScrollBar( handleCellWindow, SB_HORZ, FALSE );
 
-	checkHandle(handleCellWindow);
+	CellResult::checkHandle( handleCellWindow );
 
-	result.Create(parentHandle);
+	result.Create( parentHandle );
 	init();
-	SetFocus(handleCellWindow);
+	SetFocus( handleCellWindow );
 }
 
-void CellWindow::Show(int cmdShow)
+void CellWindow::Show( int cmdShow )
 {
-	ShowWindow(handleCellWindow, cmdShow);
+	ShowWindow( handleCellWindow, cmdShow );
 }
 
 HWND CellWindow::getHandle() const
@@ -56,7 +58,7 @@ unsigned int CellWindow::getHeight() const
 	return height;
 }
 
-bool CellWindow::changeHeight(unsigned int newCountOfStrings)
+bool CellWindow::changeHeight( unsigned int newCountOfStrings )
 {
 	bool changed = (countOfStrings != newCountOfStrings);
 	countOfStrings = newCountOfStrings;
@@ -67,7 +69,7 @@ bool CellWindow::changeHeight(unsigned int newCountOfStrings)
 
 void CellWindow::setResult()
 {
-	result.setExistence(true);
+	result.setExistence( true );
 }
 
 bool CellWindow::isResult() const
@@ -92,25 +94,26 @@ unsigned int CellWindow::getHeightOfResult() const
 
 std::wstring CellWindow::getText() const
 {
-	int length = SendMessage(handleCellWindow, WM_GETTEXTLENGTH, 0, 0);
+	int length = SendMessage( handleCellWindow, WM_GETTEXTLENGTH, 0, 0 );
 	length++;
 	std::wstring text;
-	text.resize(length);
-	::GetWindowText(handleCellWindow, (LPWSTR)text.c_str(), length);
+	text.resize( length );
+	::GetWindowText( handleCellWindow, (LPWSTR)text.c_str(), length );
 	return text;
 }
 
-bool operator== (const CellWindow& left, const CellWindow& right)
+bool operator== ( const CellWindow& left, const CellWindow& right )
 {
 	return left.getHandle() == right.getHandle();
 }
 
 void CellWindow::init()
 {
-	HMODULE module = ::GetModuleHandle(0);
-	HRSRC resourseHandle = ::FindResource(module, MAKEINTRESOURCE(IDR_TEXT1), L"TEXT");
-	HGLOBAL handleData = ::LoadResource(module, resourseHandle);
-	DWORD size = ::SizeofResource(module, resourseHandle);
-	LPVOID data = LockResource(handleData);
-	SetWindowText(handleCellWindow, reinterpret_cast<LPCWSTR>(data));
+	HMODULE module = ::GetModuleHandle( 0 );
+	HRSRC resourseHandle = ::FindResource( module, MAKEINTRESOURCE( IDR_TEXT1 ), L"TEXT" );
+	HGLOBAL handleData = ::LoadResource( module, resourseHandle );
+	// TODO 
+	// DWORD size = ::SizeofResource( module, resourseHandle );
+	LPVOID data = LockResource( handleData );
+	SetWindowText( handleCellWindow, reinterpret_cast<LPCWSTR>(data) );
 }

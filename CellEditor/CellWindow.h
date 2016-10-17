@@ -1,22 +1,19 @@
 ﻿#pragma once
-
-#include "precompiled.h"
 #include "CellResult.h"
 
-class CellWindow
-{
+class CellWindow {
 public:
 
 	CellWindow();
 
-	void Create(HWND parentHandle);
+	void Create( HWND parentHandle );
 
-	void Show(int cmdShow);
+	void Show( int cmdShow );
 
 	HWND getHandle() const;
 
 	unsigned int getHeight() const;
-	bool changeHeight(unsigned int countOfStrings);
+	bool changeHeight( unsigned int countOfStrings );
 
 	void setResult();
 	bool isResult() const;
@@ -26,8 +23,7 @@ public:
 
 	std::wstring getText() const;
 
-	friend bool operator== (const CellWindow& left, const CellWindow& right);
-
+	friend bool operator== ( const CellWindow& left, const CellWindow& right );
 private:
 
 	HWND handleCellWindow;
