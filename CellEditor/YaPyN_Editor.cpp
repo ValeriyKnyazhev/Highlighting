@@ -496,8 +496,24 @@ void YaPyN_Editor::clearCells()
 void YaPyN_Editor::runCell()
 {
 	if( activeCell != childrensWindow.end() ) {
-		activeCell->setResult();
-		::SetWindowText( activeCell->getHandleOfResult(), (LPWSTR)resultText );
+		try {
+			activeCell->setResult();
+			std::shared_ptr<IReturnResultCallback> callback =
+				std::make_shared<CSimplePythonCallback>( CSimplePythonCallback( activeCell->getHandleOfResult() ) );
+			std::wstring wcellText = activeCell->getText();
+			std::string cellText( wcellText.begin(), wcellText.end() );		
+			pythonInterpretor.Run( cellText, callback );
+		}
+		catch( wchar_t* e ) {
+			MessageBox( NULL, e, L"Exception", NULL );
+		}
+		catch( std::exception e ) {
+			LPWSTR exceptionText;
+			DWORD textLen = MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, NULL, 0 );
+			exceptionText = static_cast<LPWSTR>(GlobalAlloc( GPTR, (textLen + 1 ) * sizeof( WCHAR )));
+			MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, exceptionText, textLen );
+			MessageBox( NULL, exceptionText, L"Exception", NULL );
+		}
 		SendMessage( handleMainWindow, WM_SIZE, 0, 0 );
 		InvalidateRect( handleMainWindow, NULL, FALSE );
 		activeCell++;

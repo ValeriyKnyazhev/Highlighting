@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include "CellWindow.h"
+#include "SimplePythonCallback.h"
+#include <PythonInterpreter.h>
 
-class YaPyN_Editor
-{
+class YaPyN_Editor {
 public:
 
 	YaPyN_Editor();
@@ -11,21 +12,22 @@ public:
 
 	bool Create();
 
-	void Show(int cmdShow);
+	void Show( int cmdShow );
 
 protected:
 
-	void OnNCCreate(HWND hwnd);
+	void OnNCCreate( HWND hwnd );
 	void OnCreate();
 	void OnPaint();
 	void OnSize();
 	void OnDestroy();
 	bool OnClose();
-	void OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
+	void OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam );
 	void OnCellClick();
-	LRESULT OnCtlColorEdit(WPARAM wParam, LPARAM lParam);
+	LRESULT OnCtlColorEdit( WPARAM wParam, LPARAM lParam );
 
 private:
+	CPythonInterpretor pythonInterpretor;
 
 	HWND handleMainWindow;
 	HWND handleToolbar;
@@ -44,13 +46,13 @@ private:
 
 	bool saveFile();
 	bool loadFile();
-	bool askToSave(const wchar_t* text);
+	bool askToSave( const wchar_t* text );
 
 	void createCell();
-	void createCell(std::wstring text);
+	void createCell( std::wstring text );
 	void deleteCell();
-	void moveCell(bool direct);
-	void resizeCell(HWND handleCell);
+	void moveCell( bool direct );
+	void resizeCell( HWND handleCell );
 	void clearCells();
 	void runCell();
 	BOOL getMessageResult = 0;
@@ -58,7 +60,7 @@ private:
 	static const int SuccessDestroyWindowValue;
 
 
-	unsigned int getCountsOfStrings(HWND handleCell);
+	unsigned int getCountsOfStrings( HWND handleCell );
 
-	static LRESULT __stdcall windowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT __stdcall windowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam );
 };
