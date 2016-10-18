@@ -4,15 +4,15 @@
 
 namespace Yapynb {
 
-	void fillVectorTokensForTestIdentifiers1( std::vector<CToken>& tokens )
+	void fillVectorTokensForTestIdentifiers1( std::vector<std::pair<CToken, size_t>>& tokens )
 	{
-		tokens.push_back( CToken( CToken::TType::Identifier, "class" ) );
-		tokens.push_back( CToken( CToken::TType::Whitespace, "	" ) );
-		tokens.push_back( CToken( CToken::TType::Identifier, "MyClass" ) );
-		tokens.push_back( CToken( CToken::TType::Identifier, "def" ) );
-		tokens.push_back( CToken( CToken::TType::Whitespace, " " ) );
-		tokens.push_back( CToken( CToken::TType::Identifier, "getMyClass" ) );
-		tokens.push_back( CToken( CToken::TType::End, "\n" ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::Identifier, "class" ), 0 ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::Whitespace, "	" ), 0 ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::Identifier, "MyClass" ), 0 ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::Identifier, "def" ), 0 ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::Whitespace, " " ), 0 ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::Identifier, "getMyClass" ), 0 ) );
+		tokens.push_back( std::make_pair( CToken( CToken::TType::End, "\n" ), 0 ) );
 	}
 
 	void fillSetIdentifiersTest1( std::unordered_set<std::string>& identifiers )
@@ -23,7 +23,7 @@ namespace Yapynb {
 
 	bool testIdentifiers1()
 	{
-		std::vector<CToken> tokens;
+		std::vector<std::pair<CToken, size_t>> tokens;
 		fillVectorTokensForTestIdentifiers1( tokens );
 
 		std::unordered_set<std::string> validIdentifiers;

@@ -13,7 +13,7 @@ namespace Yapynb {
 	class CHighlighting {
 	public:
 		CHighlighting() = default;
-		void ResetTokens( const std::vector<CToken>& tokens,
+		void ResetTokens( const std::vector<std::pair<CToken, size_t>>& tokens,
 			const std::unordered_set<std::string>& userDefined,
 			const std::unordered_set<std::string>& imported );
 		void OutputTagged( std::ostream& stream );
@@ -23,7 +23,7 @@ namespace Yapynb {
 
 		std::unordered_set<std::string> UserDefined;
 		std::unordered_set<std::string> Imported;
-		std::vector<CToken> Tokens;
+		std::vector<std::pair<CToken, size_t>> Tokens;
 	};
 
 }

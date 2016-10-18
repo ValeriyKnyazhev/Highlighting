@@ -9,7 +9,8 @@ namespace Yapynb {
 
 	class IdentifierParser {
 	public:
-		std::unordered_set<std::string> getIdentifiers( const std::vector<CToken>& tokens );
+		std::unordered_set<std::string> getIdentifiers( 
+			const std::vector<std::pair<CToken, size_t>>& tokens );
 
 	};
 

@@ -26,7 +26,7 @@ namespace Yapynb {
 	private:
 		CHighlighting Highlighter;
 		CAutocomplete Autocompleter;
-		std::vector<CToken> Tokens;
+		std::vector<std::pair<CToken, size_t>> Tokens;
 		std::unordered_set<std::string> UserDefined;
 		std::unordered_set<std::string> Imported;
 

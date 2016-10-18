@@ -8,7 +8,7 @@ namespace Yapynb {
 	extern const std::unordered_set<std::string> Builtins;
 
 	void CHighlighting::ResetTokens(
-		const std::vector<CToken>& tokens,
+		const std::vector<std::pair<CToken, size_t>>& tokens,
 		const std::unordered_set<std::string>& userDefined,
 		const std::unordered_set<std::string>& imported
 	)
@@ -57,12 +57,12 @@ namespace Yapynb {
 
 	void CHighlighting::OutputTagged( std::ostream& stream )
 	{
-		for( const CToken& token : Tokens ) {
-			auto tag = TokenTag( token );
+		for( const std::pair<CToken, size_t> & token : Tokens ) {
+			auto tag = TokenTag( token.first );
 			if( tag ) {
-				stream << "<" << tag << ">";
+				stream << "<" << tag << ' ' << token.second << ">";
 			}
-			stream << token.Text;
+			stream << token.first.Text;
 			if( tag ) {
 				stream << "</" << tag << ">";
 			}
