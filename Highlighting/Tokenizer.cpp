@@ -34,8 +34,10 @@ namespace Yapynb {
 		std::vector<std::pair<CToken, size_t>> result;
 		do {
 			CToken next = Next();
-			if( isFirstLine && next.Type == CToken::TType::Whitespace ) {
-				scope = GetScope( next.Text );
+			if( isFirstLine ) {
+				if( next.Type == CToken::TType::Whitespace ) {
+					scope = GetScope( next.Text );
+				}
 				isFirstLine = false;
 			}
 			if (next.Type == CToken::TType::EndOfLine) {
@@ -50,7 +52,6 @@ namespace Yapynb {
 				}
 				scope = GetScope( next.Text );
 			}
-			std::cout << scope << std::endl;
 			result.push_back( std::make_pair( next, scope ) );
 		} while( result.back().first.Type != CToken::TType::End );
 		result.pop_back();
