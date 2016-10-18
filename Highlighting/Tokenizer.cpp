@@ -69,7 +69,7 @@ namespace Yapynb {
 		const std::vector<std::pair<CToken::TType, std::regex>> TokenRegexps{
 			{CToken::TType::Comment, std::regex( "#.*\\n", RegexFlags )},
 			{CToken::TType::StringLiteral, std::regex( R"re(('([^']|\')*')|("([^"]\')*"))re", RegexFlags )},
-			{CToken::TType::EndOfLine, std::regex( "\\n+[\\t ]+", RegexFlags )},
+			{CToken::TType::EndOfLine, std::regex( "\\n+[\\t ]*", RegexFlags )},
 			{CToken::TType::Whitespace, std::regex( "[\\t ]+", RegexFlags )},
 			{CToken::TType::Identifier, std::regex( R"re(\w\w*)re", RegexFlags )},
 			{CToken::TType::Number, std::regex( R"re((\d+(\.?\d*)|\.\d+)j?)re", RegexFlags )},
