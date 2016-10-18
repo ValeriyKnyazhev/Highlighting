@@ -3,7 +3,7 @@
 #include "CellWindow.h"
 
 // Временный размер окна текста.
-const int temporarySize = 34;
+const int temporarySize = 64;
 // Временный размер одной строчки.
 const int heightOfString = 16;
 
@@ -22,8 +22,7 @@ void CellWindow::Create( HWND parentHandle )
 	handleCellWindow = CreateWindowEx( 0,
 		L"EDIT",
 		0,
-		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER //| ES_AUTOHSCROLL
-		| WS_HSCROLL,
+		WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | WS_BORDER | ES_AUTOHSCROLL | WS_HSCROLL,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -34,7 +33,8 @@ void CellWindow::Create( HWND parentHandle )
 		0 );
 
 	//TODO: Add scrollbar, when the length of the text is larger than the length of the window
-	ShowScrollBar( handleCellWindow, SB_HORZ, FALSE );
+	ShowScrollBar( handleCellWindow, SB_HORZ, TRUE );
+	EnableScrollBar( handleCellWindow, SB_HORZ, ESB_DISABLE_RIGHT );
 
 	CellResult::checkHandle( handleCellWindow );
 
@@ -61,7 +61,7 @@ unsigned int CellWindow::getHeight() const
 bool CellWindow::changeHeight( unsigned int newCountOfStrings )
 {
 	bool changed = (countOfStrings != newCountOfStrings);
-	countOfStrings = newCountOfStrings;
+	countOfStrings = newCountOfStrings + 2;
 	height = temporarySize + countOfStrings * heightOfString;
 	// Поправить
 	return changed;
