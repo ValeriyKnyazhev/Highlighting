@@ -12,7 +12,7 @@ CellRunner::CellRunner()
 }
 
 CellRunner::~CellRunner()
-{	
+{
 	Py_Finalize();
 }
 
@@ -30,9 +30,9 @@ std::string CellRunner::RunCell( const char* str )
 	std::string answer;
 	localDictionary = PyDict_New();
 	PyObject* result = PyRun_String( str, Py_file_input, globalDictionary, localDictionary );
-	if( !result ) {		
+	if( !result ) {
 		Restart();
-		return std::string( "Error: invalid input" );		
+		return std::string( "Error: invalid input" );
 	}
 	PyDict_Update( globalDictionary, localDictionary );
 	PyObject* keys = PyDict_Keys( localDictionary );
@@ -42,7 +42,15 @@ std::string CellRunner::RunCell( const char* str )
 		PyObject* val = PyDict_GetItem( localDictionary, key );
 		answer.append( std::string( PyUnicode_AsUTF8( key ) ) );
 		answer.append( "=" );
-		answer.append( std::to_string( PyLong_AsLong( val ) ) );
+		if( PyLong_Check( val ) ) {
+			answer.append( std::to_string( PyLong_AsLong( val ) ) );
+		} else if( PyUnicode_Check( val ) ) {
+			answer.append( std::string("\"" ));
+			answer.append( std::string( PyUnicode_AsUTF8( val ) ) );
+			answer.append( std::string( "\"" ) );
+		} else {
+			answer.append( std::string( "None" ) );
+		}
 		answer.append( " \n" );
 	}
 	return answer;
