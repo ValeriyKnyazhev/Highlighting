@@ -25,6 +25,7 @@ YaPyN_Editor::YaPyN_Editor()
 	childrensWindow.resize( 0 );
 	activeCell = childrensWindow.end();
 	buttonsBitmaps.clear();
+	cellRunner = std::make_unique<CellRunner>();
 }
 
 bool YaPyN_Editor::RegisterClass()
@@ -129,7 +130,7 @@ void YaPyN_Editor::OnSize()
 }
 
 void YaPyN_Editor::OnDestroy()
-{
+{	
 	PostQuitMessage( SuccessDestroyWindowValue );
 }
 
@@ -508,7 +509,7 @@ void YaPyN_Editor::runCell()
 			std::wstring wcellText = activeCell->getText();
 			std::string cellText( wcellText.begin(), wcellText.end() );	
 			
-			std::string answer = cellRunner.RunCell( cellText.c_str() );		
+			std::string answer = cellRunner->RunCell( cellText.c_str() );		
 			SetWindowTextA( activeCell->getHandleOfResult(), answer.c_str() );
 		}
 		catch( std::exception e ) {
@@ -528,7 +529,7 @@ void YaPyN_Editor::runCell()
 void YaPyN_Editor::resetInterpetor()
 {
 	try {
-		cellRunner.Restart();
+		cellRunner->Restart();
 	}
 	catch( std::exception e ) {
 		ExceptionBox( e );

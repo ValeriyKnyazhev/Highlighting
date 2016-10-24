@@ -26,7 +26,7 @@ protected:
 	LRESULT OnCtlColorEdit( WPARAM wParam, LPARAM lParam );
 
 private:	
-	CellRunner cellRunner;
+	std::unique_ptr<CellRunner> cellRunner;
 
 	HWND handleMainWindow;
 	HWND handleToolbar;

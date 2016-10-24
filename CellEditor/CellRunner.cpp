@@ -12,10 +12,7 @@ CellRunner::CellRunner()
 }
 
 CellRunner::~CellRunner()
-{
-	Py_XDECREF( globalDictionary );
-	Py_XDECREF( localDictionary );
-	Py_XDECREF( mainModule );
+{	
 	Py_Finalize();
 }
 
@@ -31,7 +28,12 @@ void CellRunner::Restart()
 std::string CellRunner::RunCell( const char* str )
 {
 	std::string answer;
-	PyRun_String( str, Py_single_input, globalDictionary, localDictionary );
+	localDictionary = PyDict_New();
+	PyObject* result = PyRun_String( str, Py_single_input, globalDictionary, localDictionary );
+	if( !result ) {		
+		Restart();
+		return std::string( "Error: invalid input" );		
+	}
 	PyDict_Update( globalDictionary, localDictionary );
 	PyObject* keys = PyDict_Keys( localDictionary );
 
