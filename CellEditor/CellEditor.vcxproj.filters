@@ -36,6 +36,12 @@
     <ClInclude Include="CellResult.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="SimplePythonCallback.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="CellRunner.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -53,6 +59,12 @@
     <ClCompile Include="CellResult.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="SimplePythonCallback.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="CellRunner.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CellEditor.rc">
@@ -64,6 +76,39 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="CellEditor.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\bmp00001.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Icons\toolbar.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Icons\plus.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Icons\empty.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Icons\arrow-up.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\up.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\bitmap5.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\bitmap6.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\run.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\reset.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Icons\arrow-up.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

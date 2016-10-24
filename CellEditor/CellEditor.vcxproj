@@ -87,11 +87,13 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <AdditionalIncludeDirectories>$(PythonHome)\include;$(SolutionDir)PythonInterpretorDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(PythonHome)\libs;$(SolutionDir)Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -100,10 +102,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Sdern_000\Desktop\Jackals\Highlighting\PythonInterpretorDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Sdern_000\Desktop\Jackals\Highlighting\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,12 +118,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)PythonInterpretorDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,8 +147,10 @@
   <ItemGroup>
     <ClInclude Include="CellEditor.h" />
     <ClInclude Include="CellResult.h" />
+    <ClInclude Include="CellRunner.h" />
     <ClInclude Include="CellWindow.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SimplePythonCallback.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="YaPyN_Editor.h" />
@@ -150,7 +158,9 @@
   <ItemGroup>
     <ClCompile Include="CellEditor.cpp" />
     <ClCompile Include="CellResult.cpp" />
+    <ClCompile Include="CellRunner.cpp" />
     <ClCompile Include="CellWindow.cpp" />
+    <ClCompile Include="SimplePythonCallback.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -164,7 +174,23 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="CellEditor.ico" />
+    <Image Include="Icons\arrow-up.bmp" />
+    <Image Include="Icons\arrow-up.png" />
+    <Image Include="icons\bitmap5.bmp" />
+    <Image Include="icons\bitmap6.bmp" />
+    <Image Include="icons\bmp00001.bmp" />
+    <Image Include="Icons\empty.bmp" />
+    <Image Include="Icons\plus.bmp" />
+    <Image Include="icons\reset.bmp" />
+    <Image Include="icons\run.bmp" />
+    <Image Include="Icons\toolbar.bmp" />
+    <Image Include="icons\up.bmp" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PythonInterpretorDll\PythonInterpretorDll.vcxproj">
+      <Project>{36459d80-f6cc-4db7-adf2-314fc6c83f6e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
