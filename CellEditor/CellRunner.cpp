@@ -29,7 +29,7 @@ std::string CellRunner::RunCell( const char* str )
 {
 	std::string answer;
 	localDictionary = PyDict_New();
-	PyObject* result = PyRun_String( str, Py_single_input, globalDictionary, localDictionary );
+	PyObject* result = PyRun_String( str, Py_file_input, globalDictionary, localDictionary );
 	if( !result ) {		
 		Restart();
 		return std::string( "Error: invalid input" );		
