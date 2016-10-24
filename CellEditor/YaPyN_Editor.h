@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "CellWindow.h"
-#include "SimplePythonCallback.h"
-#include <PythonInterpreter.h>
+#include "CellRunner.h"
 
 class YaPyN_Editor {
 public:
@@ -26,8 +25,8 @@ protected:
 	void OnCellClick();
 	LRESULT OnCtlColorEdit( WPARAM wParam, LPARAM lParam );
 
-private:
-	CPythonInterpretor pythonInterpretor;
+private:	
+	CellRunner cellRunner;
 
 	HWND handleMainWindow;
 	HWND handleToolbar;
@@ -56,7 +55,7 @@ private:
 	void clearCells();
 	void runCell();
 	void resetInterpetor();
-	void ExceptionBox( std::exception e );
+	void ExceptionBox(const std::exception& e );
 	BOOL getMessageResult = 0;
 
 	static const int SuccessDestroyWindowValue;

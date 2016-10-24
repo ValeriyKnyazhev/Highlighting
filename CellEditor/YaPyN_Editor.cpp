@@ -504,15 +504,12 @@ void YaPyN_Editor::runCell()
 {
 	if( activeCell != childrensWindow.end() ) {
 		try {
-			activeCell->setResult();
-			std::shared_ptr<IReturnResultCallback> callback =
-				std::make_shared<CSimplePythonCallback>( CSimplePythonCallback( activeCell->getHandleOfResult() ) );
+			activeCell->setResult();			
 			std::wstring wcellText = activeCell->getText();
-			std::string cellText( wcellText.begin(), wcellText.end() );		
-			pythonInterpretor.Run( cellText, callback );
-		}
-		catch( wchar_t* e ) {
-			MessageBox( NULL, e, L"Exception", NULL );
+			std::string cellText( wcellText.begin(), wcellText.end() );	
+			
+			std::string answer = cellRunner.RunCell( cellText.c_str() );		
+			SetWindowTextA( activeCell->getHandleOfResult(), answer.c_str() );
 		}
 		catch( std::exception e ) {
 			ExceptionBox( e );
@@ -531,14 +528,14 @@ void YaPyN_Editor::runCell()
 void YaPyN_Editor::resetInterpetor()
 {
 	try {
-		pythonInterpretor.Reset();
+		cellRunner.Restart();
 	}
 	catch( std::exception e ) {
 		ExceptionBox( e );
 	}
 }
 
-void YaPyN_Editor::ExceptionBox( std::exception e )
+void YaPyN_Editor::ExceptionBox(const std::exception& e )
 {
 	LPWSTR exceptionText;
 	DWORD textLen = MultiByteToWideChar( 1251, 0, LPCSTR( e.what() ), -1, NULL, 0 );

@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="CellEditor.h" />
     <ClInclude Include="CellResult.h" />
+    <ClInclude Include="CellRunner.h" />
     <ClInclude Include="CellWindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SimplePythonCallback.h" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="CellEditor.cpp" />
     <ClCompile Include="CellResult.cpp" />
+    <ClCompile Include="CellRunner.cpp" />
     <ClCompile Include="CellWindow.cpp" />
     <ClCompile Include="SimplePythonCallback.cpp" />
     <ClCompile Include="stdafx.cpp">
