@@ -41,7 +41,9 @@ public:
 	virtual ~ITokenizer() {
 	}
 
-	std::vector<CToken> Tokenize();
+	size_t GetScope( const std::string& whiteSpaceLine );
+
+	std::vector<std::pair<CToken, size_t>> Tokenize();
 };
 
 class CPythonTokenizer : public ITokenizer {
