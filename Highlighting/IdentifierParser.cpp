@@ -7,7 +7,7 @@ namespace Yapynb {
 	void IdentifierParser::processFor( 
 		const std::vector<std::pair<CToken, size_t>>& tokens, 
 		size_t cur, 
-		std::vector<std::pair<size_t, std::unordered_set<std::string> > >& identifiers 
+		std::unordered_set<std::string>& forVariables
 		) {
 		if (
 			tokens[cur].first.Type != CToken::TType::Identifier ||
@@ -30,7 +30,7 @@ namespace Yapynb {
 				cur < tokens.size() &&
 				tokens[cur].first.Type == CToken::TType::Identifier
 				) {
-				identifiers.back().second.insert( tokens[cur].first.Text );
+				forVariables.insert( tokens[cur].first.Text );
 				cur++;
 			}
 			if(
@@ -110,6 +110,7 @@ namespace Yapynb {
 		const std::vector<std::pair<CToken, size_t>>& tokens 
 		) {
 		std::vector<std::pair<size_t, std::unordered_set<std::string> > > identifiers;
+		std::unordered_set<std::string> forVariables;
 		size_t previousScope = 0;
 		identifiers.push_back( 
 			std::make_pair( 
@@ -121,12 +122,13 @@ namespace Yapynb {
 			if( tokens[i].second != previousScope ) {
 				if( tokens[i].second > previousScope ) {
 					previousScope = tokens[i].second;
-					identifiers.push_back( 
-						std::make_pair( 
-							previousScope, 
-							std::unordered_set<std::string>() 
+					identifiers.push_back(
+						std::make_pair(
+							previousScope,
+							forVariables
 						) 
 					);
+					forVariables.clear();
 				} else {
 					previousScope = tokens[i].second;
 					while( 
@@ -138,7 +140,7 @@ namespace Yapynb {
 				}
 			} 
 			size_t cur = i;
-			processFor( tokens, cur, identifiers );
+			processFor( tokens, cur, forVariables );
 			processEquals(  tokens, cur, identifiers );
 			if (
 				i + 2 < tokens.size() &&
