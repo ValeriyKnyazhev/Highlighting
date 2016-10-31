@@ -21,7 +21,7 @@ YaPyN_Editor::YaPyN_Editor()
 {
 	handleMainWindow = 0;
 	handleToolbar = 0;
-	changed = false;
+	changed = false;	
 	childrensWindow.resize( 0 );
 	activeCell = childrensWindow.end();
 	buttonsBitmaps.clear();
@@ -84,8 +84,8 @@ void YaPyN_Editor::OnPaint()
 {
 	InvalidateRect( handleMainWindow, NULL, FALSE );
 	PAINTSTRUCT paintStruct;
-	::BeginPaint( handleMainWindow, &paintStruct );
-
+	HDC hdc = ::BeginPaint( handleMainWindow, &paintStruct );
+	
 	HBRUSH brush;
 	brush = CreateSolidBrush( colorActiveCell );
 	::FillRect( paintStruct.hdc, &paintStruct.rcPaint, brush );
@@ -105,6 +105,15 @@ void YaPyN_Editor::OnPaint()
 		::SetWindowPos( window->getHandle(), HWND_TOP, leftBorder, currentTop, width, window->getHeight(), 0 );
 		currentTop += sizeBetweenCells + window->getHeight();
 
+		if( window->isPicture() ) {
+			leftBorder = rect.left +  marginLeftRightCells;
+			width = rect.right - rect.left - 2 * marginLeftRightCells;
+
+			::SetWindowPos( window->getHandleOfPicture(), HWND_TOP, leftBorder, currentTop, window->getWidthofPicture(), window->getHeightOfPicture(), 0 );
+			window->paintPicture();
+			currentTop += sizeBetweenCells + window->getHeightOfPicture();
+		}
+
 		if( window->isResult() ) {
 			leftBorder = rect.left + 2 * marginLeftRightCells;
 			width = rect.right - rect.left - 4 * marginLeftRightCells;
@@ -112,16 +121,9 @@ void YaPyN_Editor::OnPaint()
 			::SetWindowPos( window->getHandleOfResult(), HWND_TOP, leftBorder, currentTop, width, window->getHeightOfResult(), 0 );
 			currentTop += sizeBetweenCells + window->getHeightOfResult();
 		}
+
+		
 	}
-
-	// SetScrollRange(handleMainWindow, SB_VERT, 0, 100, TRUE);
-
-	//Подсвечивает activeCell - нужно для того, чтобы проверять, что activeCell на нужном сell'е
-	//PAINTSTRUCT paintStruct2;
-	//BeginPaint(activeCell->getHandle(), &paintStruct2);
-	//brush = CreateSolidBrush(RGB(0, 250, 0));
-	//FillRect(paintStruct2.hdc, &paintStruct2.rcPaint, brush);
-	//EndPaint(activeCell->getHandle(), &paintStruct2);
 }
 
 void YaPyN_Editor::OnSize()
@@ -269,7 +271,9 @@ void YaPyN_Editor::OnCellClick()
 }
 
 void YaPyN_Editor::OnAddPict()
-{
+{	
+	activeCell->CreatePictureWindow();
+	InvalidateRect( handleMainWindow, NULL, FALSE );
 }
 
 LRESULT YaPyN_Editor::OnCtlColorEdit( WPARAM wParam, LPARAM lParam )

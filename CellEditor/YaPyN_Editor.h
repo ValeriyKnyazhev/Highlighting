@@ -26,7 +26,7 @@ protected:
 	void OnAddPict();
 	LRESULT OnCtlColorEdit( WPARAM wParam, LPARAM lParam );
 
-private:	
+private:		
 	std::unique_ptr<CellRunner> cellRunner;
 
 	HWND handleMainWindow;

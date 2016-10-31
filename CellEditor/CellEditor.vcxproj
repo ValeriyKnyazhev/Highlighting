@@ -149,6 +149,7 @@
     <ClInclude Include="CellResult.h" />
     <ClInclude Include="CellRunner.h" />
     <ClInclude Include="CellWindow.h" />
+    <ClInclude Include="PictureCell.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SimplePythonCallback.h" />
     <ClInclude Include="stdafx.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="CellResult.cpp" />
     <ClCompile Include="CellRunner.cpp" />
     <ClCompile Include="CellWindow.cpp" />
+    <ClCompile Include="PictureCell.cpp" />
     <ClCompile Include="SimplePythonCallback.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

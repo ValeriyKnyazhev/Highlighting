@@ -39,8 +39,14 @@ void CellWindow::Create( HWND parentHandle )
 	CellResult::checkHandle( handleCellWindow );
 
 	result.Create( parentHandle );
+	ptCell.Create( parentHandle );
 	init();
 	SetFocus( handleCellWindow );
+}
+
+void CellWindow::CreatePictureWindow()
+{	
+	ptCell.setExistence( true );
 }
 
 void CellWindow::Show( int cmdShow )
@@ -77,9 +83,19 @@ bool CellWindow::isResult() const
 	return result.getExistence();
 }
 
+bool CellWindow::isPicture() const
+{
+	return ptCell.getExistence();
+}
+
 HWND CellWindow::getHandleOfResult() const
 {
 	return result.getHandle();
+}
+
+HWND CellWindow::getHandleOfPicture() const
+{
+	return ptCell.getHandle();
 }
 
 std::wstring CellWindow::getResultText() const
@@ -90,6 +106,23 @@ std::wstring CellWindow::getResultText() const
 unsigned int CellWindow::getHeightOfResult() const
 {
 	return result.getHeight();
+}
+
+unsigned int CellWindow::getHeightOfPicture() const
+{
+	return ptCell.getHeight();
+}
+
+unsigned int CellWindow::getWidthofPicture() const
+{
+	return ptCell.getWidth();
+}
+
+void CellWindow::paintPicture()
+{
+	if( ptCell.getExistence() ) {
+		ptCell.paint();
+	}
 }
 
 std::wstring CellWindow::getText() const
