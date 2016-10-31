@@ -174,10 +174,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="CellEditor.ico" />
+    <Image Include="icons\addpict.bmp" />
     <Image Include="Icons\arrow-up.bmp" />
     <Image Include="Icons\arrow-up.png" />
     <Image Include="icons\bitmap5.bmp" />
     <Image Include="icons\bitmap6.bmp" />
+    <Image Include="icons\bitmap7.bmp" />
     <Image Include="icons\bmp00001.bmp" />
     <Image Include="Icons\empty.bmp" />
     <Image Include="Icons\plus.bmp" />

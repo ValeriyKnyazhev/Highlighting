@@ -223,6 +223,11 @@ void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 				resetInterpetor();
 				break;
 			}
+			case ID_ADDPICT:
+			{
+				OnAddPict();
+				break;
+			}		
 			default:
 			{
 				break;
@@ -261,6 +266,10 @@ void YaPyN_Editor::OnCellClick()
 		activeCell = cell->second;
 	}
 	InvalidateRect( handleMainWindow, NULL, FALSE );
+}
+
+void YaPyN_Editor::OnAddPict()
+{
 }
 
 LRESULT YaPyN_Editor::OnCtlColorEdit( WPARAM wParam, LPARAM lParam )
@@ -303,6 +312,7 @@ void YaPyN_Editor::createToolbar()
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_DOWN ) ), NULL );
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_RUN ) ), NULL );
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_RESET ) ), NULL );
+	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_ADDPICT ) ), NULL );
 	SendMessage( handleToolbar, TB_SETIMAGELIST, (WPARAM)1, (LPARAM)hImageList );
 
 	TBBUTTON tbb[] =
@@ -313,6 +323,7 @@ void YaPyN_Editor::createToolbar()
 		{ MAKELONG( 3, 1 ), ID_CELL_DOWN, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 		{ MAKELONG( 4, 1 ), ID_CELL_RUN, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 		{ MAKELONG( 5, 1 ), ID_CELL_RESET, TBSTATE_ENABLED, TBSTYLE_BUTTON },
+		{ MAKELONG( 6, 1 ), ID_ADDPICT, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 	};
 
 	SendMessage( handleToolbar, (UINT)TB_ADDBUTTONS, _countof( tbb ), (LPARAM)&tbb );

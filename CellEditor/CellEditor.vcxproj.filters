@@ -111,5 +111,11 @@
     <Image Include="Icons\arrow-up.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="icons\bitmap7.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\addpict.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>
