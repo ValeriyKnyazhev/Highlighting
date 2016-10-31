@@ -3,7 +3,82 @@
 
 namespace Yapynb
 {
-	size_t ImportParser::addIndexWithPoint( 
+	void ImportParser::processFrom( 
+		const std::vector<std::pair<CToken, size_t>>& tokens, 
+		size_t cur, std::unordered_set<std::string>& imports 
+		) {
+		if (
+			tokens[cur].first.Type != CToken::TType::Identifier ||
+			tokens[cur].first.Text != "from"
+			) {
+			return;
+		}
+		cur++;
+		if( 
+			cur >= tokens.size() || 
+			tokens[cur].first.Type != CToken::TType::Whitespace 
+			) {
+			return;
+		} 
+		cur++;
+		size_t add = 0;
+		while( 
+			cur < tokens.size() && 
+			tokens[cur].first.Type == CToken::TType::Identifier &&
+			(add = addIndexWithPoint( cur, tokens )) > 0 
+			) {
+			cur += add;
+		}
+		if( 
+			cur >= tokens.size() || 
+			tokens[cur].first.Type != CToken::TType::Identifier 
+			) {
+			return;
+		}
+		cur++;
+		if( 
+			cur >= tokens.size() || 
+			tokens[cur].first.Type != CToken::TType::Whitespace ) {
+			return;
+		}
+		cur++;
+		if (
+			tokens[cur].first.Type != CToken::TType::Identifier ||
+			tokens[cur].first.Text != "import"
+			) {
+			return;
+		}
+		cur++;
+		if( 
+			cur >= tokens.size() || 
+			tokens[cur].first.Type != CToken::TType::Whitespace 
+			) {
+			return;
+		}
+		cur++;
+		while( cur < tokens.size() ) {
+			if( tokens[cur].first.Type == CToken::TType::Whitespace ) {
+				cur++;
+			}
+			getAttribute( imports, cur, tokens );
+			if( 
+				cur < tokens.size() && 
+				tokens[cur].first.Type == CToken::TType::Whitespace 
+				) {
+				cur++;
+			}
+			if( 
+				cur >= tokens.size() || 
+				tokens[cur].first.Type != CToken::TType::Other ||
+				tokens[cur].first.Text != "," 
+				) {
+				return;
+			} 
+			cur++;
+		}
+	}
+
+	size_t ImportParser::addIndexWithPoint(
 		size_t cur, 
 		const std::vector<std::pair<CToken, size_t>>& tokens 
 		) {
@@ -59,75 +134,7 @@ namespace Yapynb
 		std::unordered_set<std::string> imports;
 		for( size_t i = 0; i < tokens.size(); ++i ) {
 			size_t cur = i;
-			if( 
-				tokens[cur].first.Type == CToken::TType::Identifier && 
-				tokens[cur].first.Text == "from" 
-				) {
-				cur++;
-				if( 
-					cur < tokens.size() && 
-					tokens[cur].first.Type == CToken::TType::Whitespace 
-					) {
-					cur++;
-				} else {
-					continue;
-				}
-				size_t add = 0;
-				while( 
-					cur < tokens.size() && 
-					tokens[cur].first.Type == CToken::TType::Identifier &&
-					(add = addIndexWithPoint( cur, tokens )) > 0 
-					) {
-					cur += add;
-				}
-				if( 
-					cur >= tokens.size() || 
-					tokens[cur].first.Type != CToken::TType::Identifier 
-					) {
-					continue;
-				}
-				cur++;
-				if( 
-					cur >= tokens.size() || 
-					tokens[cur].first.Type != CToken::TType::Whitespace ) {
-					continue;
-				}
-				cur++;
-				if( 
-					tokens[cur].first.Type == CToken::TType::Identifier && 
-					tokens[cur].first.Text == "import" 
-					) {
-					cur++;
-					if( 
-						cur >= tokens.size() || 
-						tokens[cur].first.Type != CToken::TType::Whitespace 
-						) {
-						continue;
-					}
-					cur++;
-					while( cur < tokens.size() ) {
-						if( tokens[cur].first.Type == CToken::TType::Whitespace ) {
-							cur++;
-						}
-						getAttribute( imports, cur, tokens );
-						if( 
-							cur < tokens.size() && 
-							tokens[cur].first.Type == CToken::TType::Whitespace 
-							) {
-							cur++;
-						}
-						if( 
-							cur < tokens.size() && 
-							tokens[cur].first.Type == CToken::TType::Other &&
-							tokens[cur].first.Text == "," 
-							) {
-							cur++;
-						} else {
-							break;
-						}
-					}
-				}
-			}
+			processFrom( tokens, cur, imports );
 		}
 		return imports;
 	}
