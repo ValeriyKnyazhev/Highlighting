@@ -46,7 +46,8 @@ void CellWindow::Create( HWND parentHandle )
 
 void CellWindow::CreatePictureWindow()
 {	
-	ptCell.setExistence( true );
+	ptCell.LoadFile();
+	ptCell.paint();
 }
 
 void CellWindow::Show( int cmdShow )

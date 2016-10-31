@@ -4,21 +4,23 @@
 void PictureCell::paint()
 {
 	PAINTSTRUCT paintStruct;
-	HDC hdc = ::BeginPaint( handle, &paintStruct );		
-	HBITMAP  hBmps = (HBITMAP)LoadImage( GetModuleHandle( 0 ), L"addpict.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE );
-	RECT Rect;
-	BITMAP Bitmap;
-	GetObject( hBmps, sizeof( BITMAP ), &Bitmap );
-	width = Bitmap.bmWidth;
-	height = Bitmap.bmHeight;
-	HDC hCompatibleDC = CreateCompatibleDC( hdc );
-	HANDLE hOldBitmap = SelectObject( hCompatibleDC, hBmps );
-	GetClientRect( handle, &Rect );	
-	StretchBlt( hdc, 0, 0, Rect.right, Rect.bottom, hCompatibleDC, 0, 0, Bitmap.bmWidth,
-		Bitmap.bmHeight, SRCCOPY );
-	SelectObject( hCompatibleDC, hOldBitmap );
-	DeleteObject( hBmps );
-	DeleteDC( hCompatibleDC );
+	HDC hdc = ::BeginPaint( handle, &paintStruct );			
+	if( isExist ) {
+		HBITMAP  hBmps = (HBITMAP)LoadImage( GetModuleHandle( 0 ), fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE );
+		RECT Rect;
+		BITMAP Bitmap;
+		GetObject( hBmps, sizeof( BITMAP ), &Bitmap );
+		width = Bitmap.bmWidth;
+		height = Bitmap.bmHeight;
+		HDC hCompatibleDC = CreateCompatibleDC( hdc );
+		HANDLE hOldBitmap = SelectObject( hCompatibleDC, hBmps );
+		GetClientRect( handle, &Rect );
+		StretchBlt( hdc, 0, 0, Rect.right, Rect.bottom, hCompatibleDC, 0, 0, Bitmap.bmWidth,
+			Bitmap.bmHeight, SRCCOPY );
+		SelectObject( hCompatibleDC, hOldBitmap );
+		DeleteObject( hBmps );
+		DeleteDC( hCompatibleDC );
+	}	
 	EndPaint( handle, &paintStruct );	
 }
 
@@ -46,13 +48,26 @@ void PictureCell::Create( HWND parentHandle )
 		GetModuleHandle( 0 ),
 		0 );
 	checkHandle( handle );	
-	SetFocus( handle );
-	paint();	
+	SetFocus( handle );		
 }
 
 void PictureCell::Show( int cmdShow )
 {
 	ShowWindow( handle, cmdShow );
+}
+
+void PictureCell::LoadFile()
+{
+	OPENFILENAME openFileName = {};
+	openFileName.lStructSize = sizeof( OPENFILENAME );
+	openFileName.lpstrFile = fileName;
+	openFileName.hwndOwner = handle;
+	openFileName.lpstrFile[0] = '\0';
+	openFileName.nMaxFile = sizeof( fileName );
+	int result = GetOpenFileName( &openFileName );	
+	if ( result ) {
+		setExistence( true );
+	}
 }
 
 HWND PictureCell::getHandle() const
