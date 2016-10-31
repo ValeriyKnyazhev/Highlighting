@@ -13,6 +13,7 @@ public:
 
 	void Show( int cmdShow );
 
+	HWND GetHandle();
 protected:
 
 	void OnNCCreate( HWND hwnd );

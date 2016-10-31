@@ -70,6 +70,11 @@ void YaPyN_Editor::Show( int cmdShow )
 	}
 }
 
+HWND YaPyN_Editor::GetHandle()
+{
+	return handleMainWindow;
+}
+
 void YaPyN_Editor::OnNCCreate( HWND hwnd )
 {
 	handleMainWindow = hwnd;
@@ -157,8 +162,9 @@ bool YaPyN_Editor::OnClose()
 
 void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 {
+
 	if( HIWORD( wParam ) == 0 ) {
-		switch( LOWORD( wParam ) ) {
+		switch( LOWORD( wParam ) ) {			
 			case ID_FILE_NEW:
 			{
 				if( changed ) {
@@ -252,11 +258,37 @@ void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 				OnCellClick();
 				break;
 			}
+			case 1: {
+				switch( LOWORD( wParam ) ) {
+					case ID_ACC_ENTER: {
+						runCell();
+						break;
+					}
+					case ID_ACC_DOWN: {
+						moveCell( false );
+						break;
+					}
+					case ID_ACC_UP: {
+						moveCell( true );
+						break;
+					} 
+					case ID_ACC_DEL: {
+						deleteCell();
+						break;
+					}
+					case ID_ACC_ADD: {
+						createCell();
+						break;
+					}
+					default:
+						break;
+				}
+			}
 			default:
 			{
 				break;
 			}
-		}
+		}		
 	}
 }
 
@@ -626,7 +658,7 @@ LRESULT YaPyN_Editor::windowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			}
 		}
 		case WM_COMMAND:
-		{
+		{			
 			window->OnCommand( hwnd, wParam, lParam );
 			return DefWindowProc( hwnd, message, wParam, lParam );
 		}
