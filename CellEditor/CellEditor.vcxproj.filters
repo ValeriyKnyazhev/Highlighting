@@ -42,6 +42,9 @@
     <ClInclude Include="CellRunner.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="PictureCell.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="CellRunner.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="PictureCell.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
@@ -109,6 +115,12 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="Icons\arrow-up.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\bitmap7.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="icons\addpict.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

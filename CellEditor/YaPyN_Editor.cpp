@@ -21,7 +21,7 @@ YaPyN_Editor::YaPyN_Editor()
 {
 	handleMainWindow = 0;
 	handleToolbar = 0;
-	changed = false;
+	changed = false;	
 	childrensWindow.resize( 0 );
 	activeCell = childrensWindow.end();
 	buttonsBitmaps.clear();
@@ -70,6 +70,11 @@ void YaPyN_Editor::Show( int cmdShow )
 	}
 }
 
+HWND YaPyN_Editor::GetHandle()
+{
+	return handleMainWindow;
+}
+
 void YaPyN_Editor::OnNCCreate( HWND hwnd )
 {
 	handleMainWindow = hwnd;
@@ -84,8 +89,8 @@ void YaPyN_Editor::OnPaint()
 {
 	InvalidateRect( handleMainWindow, NULL, FALSE );
 	PAINTSTRUCT paintStruct;
-	::BeginPaint( handleMainWindow, &paintStruct );
-
+	HDC hdc = ::BeginPaint( handleMainWindow, &paintStruct );
+	
 	HBRUSH brush;
 	brush = CreateSolidBrush( colorActiveCell );
 	::FillRect( paintStruct.hdc, &paintStruct.rcPaint, brush );
@@ -105,6 +110,15 @@ void YaPyN_Editor::OnPaint()
 		::SetWindowPos( window->getHandle(), HWND_TOP, leftBorder, currentTop, width, window->getHeight(), 0 );
 		currentTop += sizeBetweenCells + window->getHeight();
 
+		if( window->isPicture() ) {
+			leftBorder = rect.left +  marginLeftRightCells;
+			width = rect.right - rect.left - 2 * marginLeftRightCells;
+
+			::SetWindowPos( window->getHandleOfPicture(), HWND_TOP, leftBorder, currentTop, window->getWidthofPicture(), window->getHeightOfPicture(), 0 );
+			window->paintPicture();
+			currentTop += sizeBetweenCells + window->getHeightOfPicture();
+		}
+
 		if( window->isResult() ) {
 			leftBorder = rect.left + 2 * marginLeftRightCells;
 			width = rect.right - rect.left - 4 * marginLeftRightCells;
@@ -112,16 +126,9 @@ void YaPyN_Editor::OnPaint()
 			::SetWindowPos( window->getHandleOfResult(), HWND_TOP, leftBorder, currentTop, width, window->getHeightOfResult(), 0 );
 			currentTop += sizeBetweenCells + window->getHeightOfResult();
 		}
+
+		
 	}
-
-	// SetScrollRange(handleMainWindow, SB_VERT, 0, 100, TRUE);
-
-	//Подсвечивает activeCell - нужно для того, чтобы проверять, что activeCell на нужном сell'е
-	//PAINTSTRUCT paintStruct2;
-	//BeginPaint(activeCell->getHandle(), &paintStruct2);
-	//brush = CreateSolidBrush(RGB(0, 250, 0));
-	//FillRect(paintStruct2.hdc, &paintStruct2.rcPaint, brush);
-	//EndPaint(activeCell->getHandle(), &paintStruct2);
 }
 
 void YaPyN_Editor::OnSize()
@@ -155,8 +162,9 @@ bool YaPyN_Editor::OnClose()
 
 void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 {
+
 	if( HIWORD( wParam ) == 0 ) {
-		switch( LOWORD( wParam ) ) {
+		switch( LOWORD( wParam ) ) {			
 			case ID_FILE_NEW:
 			{
 				if( changed ) {
@@ -223,6 +231,11 @@ void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 				resetInterpetor();
 				break;
 			}
+			case ID_ADDPICT:
+			{
+				OnAddPict();
+				break;
+			}		
 			default:
 			{
 				break;
@@ -245,11 +258,37 @@ void YaPyN_Editor::OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam )
 				OnCellClick();
 				break;
 			}
+			case 1: {
+				switch( LOWORD( wParam ) ) {
+					case ID_ACC_ENTER: {
+						runCell();
+						break;
+					}
+					case ID_ACC_DOWN: {
+						moveCell( false );
+						break;
+					}
+					case ID_ACC_UP: {
+						moveCell( true );
+						break;
+					} 
+					case ID_ACC_DEL: {
+						deleteCell();
+						break;
+					}
+					case ID_ACC_ADD: {
+						createCell();
+						break;
+					}
+					default:
+						break;
+				}
+			}
 			default:
 			{
 				break;
 			}
-		}
+		}		
 	}
 }
 
@@ -260,6 +299,12 @@ void YaPyN_Editor::OnCellClick()
 	if( cell != handlesAndCells.end() ) {
 		activeCell = cell->second;
 	}
+	InvalidateRect( handleMainWindow, NULL, FALSE );
+}
+
+void YaPyN_Editor::OnAddPict()
+{	
+	activeCell->CreatePictureWindow();
 	InvalidateRect( handleMainWindow, NULL, FALSE );
 }
 
@@ -303,6 +348,7 @@ void YaPyN_Editor::createToolbar()
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_DOWN ) ), NULL );
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_RUN ) ), NULL );
 	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_RESET ) ), NULL );
+	ImageList_Add( hImageList, LoadBitmap( hInstance, MAKEINTRESOURCE( IDB_ADDPICT ) ), NULL );
 	SendMessage( handleToolbar, TB_SETIMAGELIST, (WPARAM)1, (LPARAM)hImageList );
 
 	TBBUTTON tbb[] =
@@ -313,6 +359,7 @@ void YaPyN_Editor::createToolbar()
 		{ MAKELONG( 3, 1 ), ID_CELL_DOWN, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 		{ MAKELONG( 4, 1 ), ID_CELL_RUN, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 		{ MAKELONG( 5, 1 ), ID_CELL_RESET, TBSTATE_ENABLED, TBSTYLE_BUTTON },
+		{ MAKELONG( 6, 1 ), ID_ADDPICT, TBSTATE_ENABLED, TBSTYLE_BUTTON },
 	};
 
 	SendMessage( handleToolbar, (UINT)TB_ADDBUTTONS, _countof( tbb ), (LPARAM)&tbb );
@@ -611,7 +658,7 @@ LRESULT YaPyN_Editor::windowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			}
 		}
 		case WM_COMMAND:
-		{
+		{			
 			window->OnCommand( hwnd, wParam, lParam );
 			return DefWindowProc( hwnd, message, wParam, lParam );
 		}

@@ -22,14 +22,16 @@ int WINAPI wWinMain( HINSTANCE instance, HINSTANCE prevInstance, LPWSTR commandL
 	window.Show( cmdShow );
 	MSG message;
 	BOOL getMessageResult = 0;
-
+	auto acceleratorTable = LoadAccelerators( instance, MAKEINTRESOURCE( IDR_ACCELERATOR1 ) );
 	while( (getMessageResult = ::GetMessage( &message, 0, 0, 0 )) != 0 ) {
 		if( getMessageResult == -1 ) {
 			return -1;
 		}
-		::TranslateMessage( &message );
-		::DispatchMessage( &message );
+		if( !TranslateAccelerator( window.GetHandle(), acceleratorTable, &message ) ) {
+			::TranslateMessage( &message );
+			::DispatchMessage( &message );
+		}
 	}
-
+	::DestroyAcceleratorTable( acceleratorTable );
 	return 0;
 }

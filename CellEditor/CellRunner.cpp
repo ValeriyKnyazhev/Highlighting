@@ -21,7 +21,7 @@ void CellRunner::Restart()
 	Py_Finalize();
 	Py_Initialize();
 	mainModule = PyImport_AddModule( "__main__" );
-	globalDictionary = PyModule_GetDict( mainModule );	
+	globalDictionary = PyModule_GetDict( mainModule );
 }
 
 std::string CellRunner::RunCell( const char* str )
@@ -41,7 +41,7 @@ std::string CellRunner::RunCell( const char* str )
 		PyObject* val = PyDict_GetItem( localDictionary, key );
 		answer.append( std::string( PyUnicode_AsUTF8( key ) ) );
 		answer.append( "=" );
-		answer.append( answerBuilder( val ) );		
+		answer.append( answerBuilder( val ) );
 	}
 	return answer;
 }
@@ -52,27 +52,25 @@ std::string CellRunner::answerBuilder( PyObject* val )
 	if( PyLong_Check( val ) ) {
 		answer.append( std::to_string( PyLong_AsLong( val ) ) );
 	} else if( PyUnicode_Check( val ) ) {
-		answer.append( std::string( "\"" ) );
+		answer.append( std::string( "\'" ) );
 		answer.append( std::string( PyUnicode_AsUTF8( val ) ) );
-		answer.append( std::string( "\"" ) );
+		answer.append( std::string( "\'" ) );
 	} else if( PyList_Check( val ) ) {
 		int listSize = PyList_Size( val );
 		answer.append( std::string( "[" ) );
-		for( int i = 0; i < listSize-1; i++ ) {
+		for( int i = 0; i < listSize - 1; i++ ) {
 			answer.append( answerBuilder( PyList_GetItem( val, i ) ) );
 			answer.append( std::string( ", " ) );
 		}
-		answer.append( answerBuilder( PyList_GetItem( val, listSize-1 ) ) );
+		answer.append( answerBuilder( PyList_GetItem( val, listSize - 1 ) ) );
 		answer.append( std::string( "]" ) );
 	} else if( PyDict_Check( val ) ) {
 		PyObject* keys = PyDict_Keys( val );
 		answer.append( std::string( "{" ) );
 		for( int i = 0; i < PyList_Size( keys ); i++ ) {
 			PyObject* key = PyList_GetItem( keys, i );
-			PyObject* dictval = PyDict_GetItem( val, key );
-			answer.append( std::string( "'" ) );
-			answer.append( std::string( PyUnicode_AsUTF8( key ) ) );
-			answer.append( std::string( "'" ) );
+			PyObject* dictval = PyDict_GetItem( val, key );			
+			answer.append( answerBuilder( key ) );			
 			answer.append( " : " );
 			answer.append( answerBuilder( dictval ) );
 			if( i < PyList_Size( keys ) - 1 ) {
@@ -80,8 +78,7 @@ std::string CellRunner::answerBuilder( PyObject* val )
 			}
 		}
 		answer.append( std::string( "}" ) );
-	}
-	else {
+	} else {
 		answer.append( std::string( "None" ) );
 	}
 	answer.append( " \n" );

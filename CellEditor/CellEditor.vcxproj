@@ -149,6 +149,7 @@
     <ClInclude Include="CellResult.h" />
     <ClInclude Include="CellRunner.h" />
     <ClInclude Include="CellWindow.h" />
+    <ClInclude Include="PictureCell.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SimplePythonCallback.h" />
     <ClInclude Include="stdafx.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="CellResult.cpp" />
     <ClCompile Include="CellRunner.cpp" />
     <ClCompile Include="CellWindow.cpp" />
+    <ClCompile Include="PictureCell.cpp" />
     <ClCompile Include="SimplePythonCallback.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -174,10 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="CellEditor.ico" />
+    <Image Include="icons\addpict.bmp" />
     <Image Include="Icons\arrow-up.bmp" />
     <Image Include="Icons\arrow-up.png" />
     <Image Include="icons\bitmap5.bmp" />
     <Image Include="icons\bitmap6.bmp" />
+    <Image Include="icons\bitmap7.bmp" />
     <Image Include="icons\bmp00001.bmp" />
     <Image Include="Icons\empty.bmp" />
     <Image Include="Icons\plus.bmp" />

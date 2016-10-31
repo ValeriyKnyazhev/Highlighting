@@ -13,6 +13,7 @@ public:
 
 	void Show( int cmdShow );
 
+	HWND GetHandle();
 protected:
 
 	void OnNCCreate( HWND hwnd );
@@ -23,9 +24,10 @@ protected:
 	bool OnClose();
 	void OnCommand( HWND hWnd, WPARAM wParam, LPARAM lParam );
 	void OnCellClick();
+	void OnAddPict();
 	LRESULT OnCtlColorEdit( WPARAM wParam, LPARAM lParam );
 
-private:	
+private:		
 	std::unique_ptr<CellRunner> cellRunner;
 
 	HWND handleMainWindow;
