@@ -482,6 +482,7 @@ void YaPyN_Editor::deleteCell()
 		HWND hwnd = activeCell->getHandle();
 		CellResult::checkHandle( hwnd );
 		DestroyWindow( activeCell->getHandleOfResult() );
+		DestroyWindow( activeCell->getHandleOfPicture() );
 		DestroyWindow( hwnd );
 		auto oldCell = activeCell;
 		auto nextCell = activeCell;
