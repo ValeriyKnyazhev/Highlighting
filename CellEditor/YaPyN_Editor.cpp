@@ -639,6 +639,40 @@ LRESULT YaPyN_Editor::windowProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM
 			window->OnCreate();
 			return DefWindowProc( hwnd, message, wParam, lParam );
 		}
+		case WM_KEYDOWN:
+		{
+			switch ( wParam ) {
+				case 'R':
+					if (GetAsyncKeyState(VK_CONTROL)) {
+						window->runCell();
+					}
+					break;
+				case 'U':
+					if (GetAsyncKeyState(VK_CONTROL)) {
+						switch (LOWORD(wParam)) {
+						case ID_ACC_DOWN: {
+							window->moveCell(false);
+							break;
+						}
+						case ID_ACC_UP: {
+							window->moveCell(true);
+							break;
+						}
+						default: {
+							break;
+						}
+					}
+					break;
+				case 'D':
+					if (GetAsyncKeyState(VK_CONTROL)) {
+						window->deleteCell();
+					}
+					break;
+				default: {
+					break;
+				}
+			}
+		}
 		case WM_PAINT:
 		{
 			window->OnPaint();
